@@ -33,9 +33,12 @@ reg [1:0] curr_state,next_state;
 
 reg [15:0] counter, next_counter;
 reg [wordlength*4-1:0] weight_container, next_weight_container;
+reg [col_length*4-1:0] weight_cols_container, weight_next_cols_container;
+reg [col_length*4-1:0] weight_rows_container, weight_next_rows_container;
+
 reg [wordlength*16-1:0] activation_container, next_activation_container;
-reg [col_length*16-1:0] cols_container, next_cols_container;
-reg [col_length*16-1:0] rows_container, next_rows_container;
+reg [col_length*16-1:0] activation_cols_container, activation_next_cols_container;
+reg [col_length*16-1:0] activation_rows_container, activation_next_rows_container;
 //input FF
 reg signed [wordlength*1 -1:0] reg_weight,reg_weight_2;
 reg signed [wordlength*4 -1:0] reg_data_in,reg_data_in_2;
@@ -47,16 +50,34 @@ reg signed [wordlength*4-1:0] reg_data_in_cols,reg_data_in_cols_2;
 reg signed [wordlength*4-1:0] reg_data_in_rows,reg_data_in_rows_2;
 
 
-wire signed [wordlength-1:0] answer_1_1,answer_1_2,answer_1_3,answer_1_4; 
+wire signed [wordlength*2-1:0] answer_1_1,answer_1_2,answer_1_3,answer_1_4,answer_2_1,answer_2_2,answer_2_3,answer_2_4,answer_3_1,answer_3_2,answer_3_3,answer_3_4,answer_4_1,answer_4_2,answer_4_3,answer_4_4; 
 
-assign answer_1_1 = weight_container[15:0] * activation_container[15:0];
-assign answer_1_2 = weight_container[15:0] * activation_container[31:16];
-assign answer_1_3 = weight_container[15:0] * activation_container[47:32];
-assign answer_1_4 = weight_container[15:0] * activation_container[63:48];
-assign data_out[63:0] = {answer_1_4,answer_1_3,answer_1_2,answer_1_1};
-assign data_out[127:64] = {answer_1_4,answer_1_3,answer_1_2,answer_1_1};
-assign data_out[191:128] = {answer_1_4,answer_1_3,answer_1_2,answer_1_1};
-assign data_out[255:192] = {answer_1_4,answer_1_3,answer_1_2,answer_1_1};
+assign answer_1_1 = weight_container[15:0] * activation_container[wordlength-1:0];
+assign answer_1_2 = weight_container[15:0] * activation_container[(wordlength*2)-1:16];
+assign answer_1_3 = weight_container[15:0] * activation_container[(wordlength*3)-1:32];
+assign answer_1_4 = weight_container[15:0] * activation_container[(wordlength*4)-1:48];
+
+assign answer_2_1 = weight_container[31:16] * activation_container[(wordlength*5)-1 -:wordlength];
+assign answer_2_2 = weight_container[31:16] * activation_container[(wordlength*6)-1 -:wordlength];
+assign answer_2_3 = weight_container[31:16] * activation_container[(wordlength*7)-1 -:wordlength];
+assign answer_2_4 = weight_container[31:16] * activation_container[(wordlength*8)-1 -:wordlength];
+
+assign answer_3_1 = weight_container[47:32] * activation_container[(wordlength*9)-1 -:wordlength];
+assign answer_3_2 = weight_container[47:32] * activation_container[(wordlength*10)-1 -:wordlength];
+assign answer_3_3 = weight_container[47:32] * activation_container[(wordlength*11)-1 -:wordlength];
+assign answer_3_4 = weight_container[47:32] * activation_container[(wordlength*12)-1 -:wordlength];
+
+assign answer_4_1 = weight_container[63:48] * activation_container[(wordlength*13)-1 -:wordlength];
+assign answer_4_2 = weight_container[63:48] * activation_container[(wordlength*14)-1 -:wordlength];
+assign answer_4_3 = weight_container[63:48] * activation_container[(wordlength*15)-1 -:wordlength];
+assign answer_4_4 = weight_container[63:48] * activation_container[(wordlength*16)-1 -:wordlength];
+
+
+
+assign data_out[63:0] = {{answer_1_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_1[(wordlength+wordlength/2)-1 -:wordlength]}};
+assign data_out[127:64] = {{answer_2_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_1[(wordlength+wordlength/2)-1 -:wordlength]}};
+assign data_out[191:128] = {{answer_3_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_1[(wordlength+wordlength/2)-1 -:wordlength]}};
+assign data_out[255:192] = {{answer_4_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_1[(wordlength+wordlength/2)-1 -:wordlength]}};
 //state reg
 always@(posedge clk or negedge irst_n)begin
     if(!irst_n)begin
@@ -105,8 +126,12 @@ always@(*)begin
     
     next_weight_container = weight_container;
     next_activation_container = activation_container;
-    next_cols_container = cols_container;
-    next_rows_container = rows_container;
+
+    weight_next_cols_container = weight_cols_container;
+    weight_next_rows_container = weight_rows_container;
+    
+    activation_next_cols_container = activation_cols_container;
+    activation_next_rows_container = activation_rows_container;
     
 
 end
@@ -122,9 +147,11 @@ always@(posedge clk or negedge irst_n)begin
         counter <= 'd0;
         weight_container <='d0;
         activation_container <='d0;
-        activation_container <='d0;
-        cols_container <='d0;
-        rows_container <='d0;
+        
+        weight_cols_container <='d0;
+        weight_rows_container <='d0;
+        activation_cols_container <='d0;
+        activation_rows_container <='d0;
         //input FF 
         reg_weight <= 'd0;
         reg_data_in <= 'd0;
@@ -164,6 +191,7 @@ always@(posedge clk or negedge irst_n)begin
             reg_weight_cols_2 <= reg_weight_cols;
             reg_weight_rows <= weight_rows;
             reg_weight_rows_2 <= reg_weight_rows;
+
             reg_data_in_cols <= data_in_cols;
             reg_data_in_cols_2 <= reg_data_in_cols;
             reg_data_in_rows <= data_in_rows;
@@ -174,10 +202,15 @@ always@(posedge clk or negedge irst_n)begin
                 else if (counter[1:0]=='d2) weight_container[wordlength*2-1:wordlength*1] <= reg_weight_2;
                 else if (counter[1:0]=='d3) weight_container[wordlength*3-1:wordlength*2] <= reg_weight_2;
                 else weight_container[wordlength*4-1:wordlength*3] <= reg_weight_2;
+                weight_cols_container <= (weight_next_cols_container << col_length) + reg_weight_cols_2;
+                weight_rows_container <= (weight_next_rows_container << col_length) + reg_weight_rows_2;
             end
             activation_container <= (next_activation_container << wordlength*4) + reg_data_in_2;
 
 
+
+            activation_cols_container <= (activation_next_cols_container << col_length*4 ) + reg_data_in_cols_2;
+            activation_rows_container <= (activation_next_rows_container << col_length*4 ) + reg_data_in_rows_2;
             //calculate
             //
 

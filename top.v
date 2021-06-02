@@ -9,6 +9,10 @@ reg irst_n;
 reg signed [wordlength*4-1:0] data_in;
 reg signed [wordlength-1:0] weight;
 reg in_valid;
+reg [5:0] in_channel;
+
+reg [col_length-1 :0] weight_cols,weight_rows;
+reg [col_length*4 -1:0] data_in_cols,data_in_rows;
 //iter
 integer i,j,k;
 
@@ -24,7 +28,22 @@ initial begin
                 data_in[wordlength*2-1:wordlength*1] = i+2;
                 data_in[wordlength*3-1:wordlength*2] = i+3;
                 data_in[wordlength*4-1:wordlength*3] = i+4;
-                
+                in_channel = 'd5;
+                weight_cols = 'd1;
+                weight_rows = 'd2;
+
+                data_in_cols[col_length-1:0] = 3; 
+                data_in_cols[col_length*2-1:col_length*1] = 4;
+                data_in_cols[col_length*3-1:col_length*2] = 5;
+                data_in_cols[col_length*4-1:col_length*3] = 6;
+
+                data_in_rows[col_length-1:0] = 6; 
+                data_in_rows[col_length*2-1:col_length*1] = 5;
+                data_in_rows[col_length*3-1:col_length*2] = 4;
+                data_in_rows[col_length*4-1:col_length*3] = 3;
+
+
+
                 #10;
             end
     #1000;
@@ -45,12 +64,12 @@ PE #(
 .irst_n(irst_n),
 .in_valid(in_valid),
 .pixels(16'd15),
-.in_channel(),
-.weight_cols(),
-.weight_rows(),
+.in_channel(in_channel),
+.weight_cols(weight_cols),
+.weight_rows(weight_rows),
 .weight(weight),
-.data_in_cols(),
-.data_in_rows(),
+.data_in_cols(data_in_cols),
+.data_in_rows(data_in_rows),
 .data_in(data_in),
 .out_channel(),
 .data_out(),
