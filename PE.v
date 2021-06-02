@@ -47,8 +47,8 @@ reg [5:0] reg_in_channel,reg_in_channel_2;
 reg signed [col_length-1:0] reg_weight_cols,reg_weight_cols_2;
 reg signed [col_length-1:0] reg_weight_rows,reg_weight_rows_2;
 
-reg signed [wordlength*4-1:0] reg_data_in_cols,reg_data_in_cols_2;
-reg signed [wordlength*4-1:0] reg_data_in_rows,reg_data_in_rows_2;
+reg signed [col_length*4-1:0] reg_data_in_cols,reg_data_in_cols_2;
+reg signed [col_length*4-1:0] reg_data_in_rows,reg_data_in_rows_2;
 
 
 
