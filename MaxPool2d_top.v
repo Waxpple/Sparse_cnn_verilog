@@ -23,7 +23,7 @@ initial begin
     #10     irst_n = 1;
     #100    in_valid = 1;
             for (i=0;i<1024;i=i+1)begin
-                data_in[wordlength-1:0] = i+1;
+                data_in[wordlength-1:0] = $random;
                 #10;
             end
     #1000;

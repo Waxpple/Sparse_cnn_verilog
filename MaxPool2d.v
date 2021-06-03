@@ -13,7 +13,6 @@ module MaxPool2d#(
 );
 reg signed [wordlength-1:0] max,next_max;
 reg counter,next_counter;
-
 assign data_out = max;
 
 
@@ -30,28 +29,18 @@ always @(posedge clk or negedge irst_n) begin
     end
     else begin
         if (in_valid)begin
-            if (max < pixels_0)begin
-                if (pixels_0 < pixels_1)begin
-                    max <= pixels_1;
-                end
-                else begin
-                    max <= pixels_0;
-                end
-            end
-            else if (max < pixels_1) begin
-                max <= pixels_1;
+            if (counter ==0)begin
+                if (pixels_0 > pixels_1) max <= pixels_0;
+                else max <= pixels_1;
+                out_valid <= 'd0;
             end
             else begin
-                max <= next_max;
+                if (max <pixels_0) max <= pixels_0;
+                else if (max < pixels_1) max <= pixels_1;
+                else max <= next_max;
+                out_valid <= 'd1;
             end
-            if (counter) out_valid <= 1'd1;
-            else out_valid <= 1'd0;
-            counter <= next_counter +'d1;
-        end
-        else begin
-            max <= {1'b1,{(wordlength-1){1'b0}}};
-            counter <= 'd0;
-            out_valid <= 'd0;
+            counter <= next_counter + 1'b1;    
         end
     end
     
