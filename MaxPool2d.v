@@ -12,7 +12,7 @@ module MaxPool2d#(
     output reg out_valid
 );
 reg signed [wordlength-1:0] max,next_max;
-reg [1:0] counter,next_counter;
+reg counter,next_counter;
 
 assign data_out = max;
 
@@ -44,7 +44,7 @@ always @(posedge clk or negedge irst_n) begin
             else begin
                 max <= next_max;
             end
-            if (counter == 2'd3) out_valid <= 1'd1;
+            if (counter) out_valid <= 1'd1;
             else out_valid <= 1'd0;
             counter <= next_counter +'d1;
         end
