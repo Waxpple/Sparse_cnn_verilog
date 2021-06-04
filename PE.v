@@ -193,35 +193,42 @@ always@(*)begin
                         next_state = LOAD_WEIGHT;
                         next_counter = counter +'d1;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
+                        next_curr_weight_counter = curr_weight_counter+'d1;
                     end 
                     else begin
                         next_state = IDLE;
                         next_counter = counter;
-                        next_curr_pixel_counter = curr_pixel_counter+'d1;
+                        next_curr_pixel_counter = curr_pixel_counter;
+                        next_curr_weight_counter = curr_weight_counter;
                     end
     LOAD_WEIGHT:    if(counter=='d4) begin 
                         next_state = LOAD_FULL_IMAGE;
                         next_counter = counter +'d1;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
+                        next_curr_weight_counter = curr_weight_counter;
                     end
                     else begin
                         next_state = LOAD_WEIGHT;
                         next_counter = counter +'d1;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
+                        next_curr_weight_counter = curr_weight_counter+'d1;
                     end
     LOAD_FULL_IMAGE:    if(counter== pixels) begin
                             next_state = LOAD_WEIGHT;
                             next_counter = 'd0;
                             next_curr_pixel_counter = 'd0;
+                            next_curr_weight_counter = curr_weight_counter;
                         end
                         else begin 
                             next_state = LOAD_FULL_IMAGE;
                             next_counter = counter +'d1;
                             next_curr_pixel_counter = curr_pixel_counter+'d1;
+                            next_curr_weight_counter = curr_weight_counter;
                         end
     default:begin       next_state = IDLE;
                         next_counter = counter;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
+                        next_curr_weight_counter = curr_weight_counter;
             end
     endcase
 end
@@ -241,7 +248,7 @@ always@(*)begin
     activation_next_rows_container = activation_rows_container;
     
     
-    next_curr_weight_counter = curr_weight_counter+'d1;
+    
 end
 
 always@(posedge clk or negedge irst_n)begin
@@ -316,14 +323,14 @@ always@(posedge clk or negedge irst_n)begin
                 weight_cols_container <= (weight_next_cols_container << col_length) + reg_weight_cols_2;
                 weight_rows_container <= (weight_next_rows_container << col_length) + reg_weight_rows_2;
                 out_valid <= 'd1;
-                curr_weight_counter <= next_curr_weight_counter;
+                
             end
             activation_container <= (next_activation_container << wordlength*4) + reg_data_in_2;
             
             activation_cols_container <= (activation_next_cols_container << col_length*4 ) + reg_data_in_cols_2;
             activation_rows_container <= (activation_next_rows_container << col_length*4 ) + reg_data_in_rows_2;
             curr_pixel_counter <= next_curr_pixel_counter;
-            
+            curr_weight_counter <= next_curr_weight_counter;
             //calculate
             //
 
