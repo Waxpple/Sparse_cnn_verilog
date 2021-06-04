@@ -2,15 +2,16 @@ module PE
 #(
     
     parameter col_length = 5,
-    parameter wordlength = 16,
-    parameter kernel_size = 5
+    parameter wordlength = 8,
+    parameter kernel_size = 5,
+    parameter doublewordLength = 16
 )
 (
     input clk,
     input irst_n,
     input in_valid,
-    input [15:0] pixels,
-    input [5:0] in_channel,
+    input [doublewordLength-1:0] pixels,
+    input [doublewordLength-1:0] in_channel,
     input [col_length*1 -1:0]weight_cols,
     input [col_length*1 -1:0]weight_rows,
     input signed [wordlength*1 -1:0]weight,
@@ -18,11 +19,13 @@ module PE
     input [col_length*4 -1:0]data_in_cols,
     input [col_length*4 -1:0]data_in_rows,
     input signed [wordlength*4 -1:0]data_in,
-    output signed [5:0] out_channel,
+    output signed [doublewordLength-1:0] out_channel,
     output signed [wordlength*16 -1:0]data_out,
     output signed [col_length*16 -1:0]data_out_cols,
     output signed [col_length*16 -1:0]data_out_rows,
-    output reg out_valid
+    output reg out_valid,
+    output [doublewordLength-1:0] curr_pixel,
+    output [doublewordLength-1:0] curr_weight
 );
 
 //state
@@ -31,8 +34,12 @@ parameter LOAD_WEIGHT = 2'b01;
 parameter LOAD_FULL_IMAGE = 2'b10;
 reg [1:0] curr_state,next_state;
 
+//output state
+reg [doublewordLength-1:0] curr_pixel_counter,next_curr_pixel_counter,curr_weight_counter,next_curr_weight_counter;
+assign curr_pixel = curr_pixel_counter;//(curr_pixel_counter>pixels)?'d0:curr_pixel_counter;
+assign curr_weight = curr_weight_counter;
 
-reg [15:0] counter, next_counter;
+reg [doublewordLength-1:0] counter, next_counter;
 reg [wordlength*4-1:0] weight_container, next_weight_container;
 reg [col_length*4-1:0] weight_cols_container, weight_next_cols_container;
 reg [col_length*4-1:0] weight_rows_container, weight_next_rows_container;
@@ -160,10 +167,10 @@ assign row_answer_4_3 = (out_valid==1'b1)?activation_rows_container[col_length*1
 assign row_answer_4_4 = (out_valid==1'b1)?activation_rows_container[col_length*16-1 -: col_length] + weight_rows_container[(col_length*4)-1 -: col_length]:'d0;
 
 
-assign data_out[63:0] = {{answer_1_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_1[(wordlength+wordlength/2)-1 -:wordlength]}};
-assign data_out[127:64] = {{answer_2_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_1[(wordlength+wordlength/2)-1 -:wordlength]}};
-assign data_out[191:128] = {{answer_3_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_1[(wordlength+wordlength/2)-1 -:wordlength]}};
-assign data_out[255:192] = {{answer_4_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_1[(wordlength+wordlength/2)-1 -:wordlength]}};
+assign data_out[wordlength*4 -1 -:wordlength*4] = {{answer_1_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_1_1[(wordlength+wordlength/2)-1 -:wordlength]}};
+assign data_out[wordlength*8 -1 -:wordlength*4] = {{answer_2_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_2_1[(wordlength+wordlength/2)-1 -:wordlength]}};
+assign data_out[wordlength*12 -1 -:wordlength*4] = {{answer_3_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_3_1[(wordlength+wordlength/2)-1 -:wordlength]}};
+assign data_out[wordlength*16 -1 -:wordlength*4] = {{answer_4_4[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_3[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_2[(wordlength+wordlength/2)-1 -:wordlength]},{answer_4_1[(wordlength+wordlength/2)-1 -:wordlength]}};
 
 assign out_channel = reg_in_channel_2;
 assign data_out_cols = {col_answer_1_1,col_answer_1_2,col_answer_1_3,col_answer_1_4,col_answer_2_1,col_answer_2_2,col_answer_2_3,col_answer_2_4,col_answer_3_1,col_answer_3_2,col_answer_3_3,col_answer_3_4,col_answer_4_1,col_answer_4_2,col_answer_4_3,col_answer_4_4};
@@ -185,29 +192,36 @@ always@(*)begin
     IDLE:           if(in_valid) begin
                         next_state = LOAD_WEIGHT;
                         next_counter = counter +'d1;
+                        next_curr_pixel_counter = curr_pixel_counter+'d1;
                     end 
                     else begin
                         next_state = IDLE;
                         next_counter = counter;
+                        next_curr_pixel_counter = curr_pixel_counter+'d1;
                     end
     LOAD_WEIGHT:    if(counter=='d4) begin 
                         next_state = LOAD_FULL_IMAGE;
                         next_counter = counter +'d1;
+                        next_curr_pixel_counter = curr_pixel_counter+'d1;
                     end
                     else begin
                         next_state = LOAD_WEIGHT;
                         next_counter = counter +'d1;
+                        next_curr_pixel_counter = curr_pixel_counter+'d1;
                     end
     LOAD_FULL_IMAGE:    if(counter== pixels) begin
                             next_state = LOAD_WEIGHT;
-                            next_counter = 'd1;
+                            next_counter = 'd0;
+                            next_curr_pixel_counter = 'd0;
                         end
                         else begin 
                             next_state = LOAD_FULL_IMAGE;
                             next_counter = counter +'d1;
+                            next_curr_pixel_counter = curr_pixel_counter+'d1;
                         end
-    default:begin      next_state = IDLE;
+    default:begin       next_state = IDLE;
                         next_counter = counter;
+                        next_curr_pixel_counter = curr_pixel_counter+'d1;
             end
     endcase
 end
@@ -226,7 +240,8 @@ always@(*)begin
     activation_next_cols_container = activation_cols_container;
     activation_next_rows_container = activation_rows_container;
     
-
+    
+    next_curr_weight_counter = curr_weight_counter+'d1;
 end
 
 always@(posedge clk or negedge irst_n)begin
@@ -260,6 +275,10 @@ always@(posedge clk or negedge irst_n)begin
         reg_data_in_cols_2 <= 'd0;
         reg_data_in_rows <= 'd0;
         reg_data_in_rows_2 <= 'd0;
+
+        //
+        curr_weight_counter <= 'd0;
+        curr_pixel_counter <= 'd0;
     end
     else begin
         //status 1 load the weight and activation before full
@@ -297,12 +316,13 @@ always@(posedge clk or negedge irst_n)begin
                 weight_cols_container <= (weight_next_cols_container << col_length) + reg_weight_cols_2;
                 weight_rows_container <= (weight_next_rows_container << col_length) + reg_weight_rows_2;
                 out_valid <= 'd1;
+                curr_weight_counter <= next_curr_weight_counter;
             end
             activation_container <= (next_activation_container << wordlength*4) + reg_data_in_2;
             
             activation_cols_container <= (activation_next_cols_container << col_length*4 ) + reg_data_in_cols_2;
             activation_rows_container <= (activation_next_rows_container << col_length*4 ) + reg_data_in_rows_2;
-
+            curr_pixel_counter <= next_curr_pixel_counter;
             
             //calculate
             //

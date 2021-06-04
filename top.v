@@ -3,7 +3,8 @@ module top();
 
 parameter  col_length= 5;
 parameter wordlength = 16;
-
+parameter doublewordLength = 16;
+parameter kernelSize = 5;
 reg clk;
 reg irst_n;
 reg signed [wordlength*4-1:0] data_in;
@@ -58,7 +59,9 @@ always #5 clk = ~clk;
 
 PE #(
 .col_length(col_length),
-.wordlength(wordlength)
+.wordlength(wordlength),
+.kernel_size(kernelSize),
+.doublewordLength(doublewordLength)
 ) u1 (
 .clk(clk),
 .irst_n(irst_n),
@@ -75,7 +78,9 @@ PE #(
 .data_out(),
 .data_out_cols(),
 .data_out_rows(),
-.out_valid()
+.out_valid(),
+.curr_pixel(),
+.curr_weight()
 );
 
 
