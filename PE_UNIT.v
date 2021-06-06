@@ -16,6 +16,7 @@ module PE_UNIT
 
     
     //weight in
+    input [double_word_length-1:0] weight_valid_num,
     input [col_length*1 -1:0]weight_cols,
     input [col_length*1 -1:0]weight_rows,
     input signed [word_length*1 -1:0]weight_value,
@@ -45,13 +46,14 @@ module PE_UNIT
 parameter IDLE = 2'b00;
 parameter LOAD_WEIGHT = 2'b01;
 parameter LOAD_FULL_IMAGE = 2'b10;
+parameter DONE = 2'b11;
 reg [1:0] curr_state,next_state;
 
 //output state
 reg [double_word_length-1:0] curr_pixel_counter,next_curr_pixel_counter,curr_weight_counter,next_curr_weight_counter;
-assign curr_pixel = curr_pixel_counter;//(curr_pixel_counter>feature_valid_num)?'d0:curr_pixel_counter;
-assign curr_weight = curr_weight_counter;
-
+assign curr_pixel = (curr_pixel_counter>feature_valid_num)?'d0:curr_pixel_counter;
+assign curr_weight = (curr_weight_counter>weight_valid_num)?'d0:curr_weight_counter;
+reg next_out_valid,out_valid_2;
 //counter
 reg [double_word_length-1:0] counter, next_counter;
 //weight container
@@ -79,25 +81,25 @@ wire [col_length-1:0] col_answer_1_1,col_answer_1_2,col_answer_1_3,col_answer_1_
 wire [col_length-1:0] row_answer_1_1,row_answer_1_2,row_answer_1_3,row_answer_1_4,row_answer_2_1,row_answer_2_2,row_answer_2_3,row_answer_2_4,row_answer_3_1,row_answer_3_2,row_answer_3_3,row_answer_3_4,row_answer_4_1,row_answer_4_2,row_answer_4_3,row_answer_4_4; 
 
 //answer is weight * feature
-assign answer_1_1 = $signed(weight_container[word_length-1:0]) * $signed(feature_container[word_length-1 -:word_length]);
-assign answer_1_2 = $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*2)-1 -:word_length]);
-assign answer_1_3 = $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*3)-1 -:word_length]);
-assign answer_1_4 = $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*4)-1 -:word_length]);
+assign answer_1_1 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[word_length-1 -:word_length]):'d0;
+assign answer_1_2 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*2)-1 -:word_length]):'d0;
+assign answer_1_3 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*3)-1 -:word_length]):'d0;
+assign answer_1_4 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*4)-1 -:word_length]):'d0;
 
-assign answer_2_1 = $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*5)-1 -:word_length]);
-assign answer_2_2 = $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*6)-1 -:word_length]);
-assign answer_2_3 = $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*7)-1 -:word_length]);
-assign answer_2_4 = $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*8)-1 -:word_length]);
+assign answer_2_1 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*5)-1 -:word_length]):'d0;
+assign answer_2_2 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*6)-1 -:word_length]):'d0;
+assign answer_2_3 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*7)-1 -:word_length]):'d0;
+assign answer_2_4 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*8)-1 -:word_length]):'d0;
 
-assign answer_3_1 = $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*9)-1 -:word_length]);
-assign answer_3_2 = $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*10)-1 -:word_length]);
-assign answer_3_3 = $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*11)-1 -:word_length]);
-assign answer_3_4 = $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*12)-1 -:word_length]);
+assign answer_3_1 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*9)-1 -:word_length]):'d0;
+assign answer_3_2 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*10)-1 -:word_length]):'d0;
+assign answer_3_3 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*11)-1 -:word_length]):'d0;
+assign answer_3_4 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*12)-1 -:word_length]):'d0;
 
-assign answer_4_1 = $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*13)-1 -:word_length]);
-assign answer_4_2 = $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*14)-1 -:word_length]);
-assign answer_4_3 = $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*15)-1 -:word_length]);
-assign answer_4_4 = $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*16)-1 -:word_length]);
+assign answer_4_1 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*13)-1 -:word_length]):'d0;
+assign answer_4_2 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*14)-1 -:word_length]):'d0;
+assign answer_4_3 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*15)-1 -:word_length]):'d0;
+assign answer_4_4 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*16)-1 -:word_length]):'d0;
 
 //rows/cols is feature rows/cols - weight rows/cols
 assign col_answer_1_1 = (out_valid==1'b1)? $signed( feature_cols_container[col_length-1   -: col_length]) - $signed( weight_cols_container[col_length-1 -: col_length]):'d0;
@@ -170,41 +172,57 @@ always@(*)begin
                         next_counter = counter +'d1;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
                         next_curr_weight_counter = curr_weight_counter+'d1;
+                        next_out_valid = 'd1;
                     end 
                     else begin
                         next_state = IDLE;
                         next_counter = counter;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
                         next_curr_weight_counter = curr_weight_counter +'d1;
+                        next_out_valid = 'd0;
                     end
     LOAD_WEIGHT:    if(counter=='d4) begin 
                         next_state = LOAD_FULL_IMAGE;
                         next_counter = counter +'d1;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
                         next_curr_weight_counter = curr_weight_counter;
+                        next_out_valid = 'd1;
                     end
                     else begin
                         next_state = LOAD_WEIGHT;
                         next_counter = counter +'d1;
                         next_curr_pixel_counter = curr_pixel_counter+'d1;
                         next_curr_weight_counter = (counter=='d3)?curr_weight_counter:curr_weight_counter+'d1;
+                        next_out_valid = 'd1;
                     end
     LOAD_FULL_IMAGE:    if(counter== feature_valid_num) begin
+                            if(curr_weight_counter > weight_valid_num)begin
+                                next_state = DONE;
+                                next_counter = 'd0;
+                                next_curr_pixel_counter = 'd1;
+                                next_curr_weight_counter = curr_weight_counter+'d1;
+                                next_out_valid = 'd1;
+                            end
+                            else begin
                             next_state = IDLE;
                             next_counter = 'd0;
-                            next_curr_pixel_counter = 'd0;
+                            next_curr_pixel_counter = 'd1;
                             next_curr_weight_counter = curr_weight_counter+'d1;
+                            next_out_valid = 'd1;
+                            end
                         end
                         else begin 
                             next_state = LOAD_FULL_IMAGE;
                             next_counter = counter +'d1;
                             next_curr_pixel_counter = curr_pixel_counter+'d1;
                             next_curr_weight_counter = curr_weight_counter;
+                            next_out_valid = 'd1;
                         end
-    default:begin       next_state = IDLE;
+    DONE:begin          next_state = DONE;
                         next_counter = counter;
-                        next_curr_pixel_counter = curr_pixel_counter+'d1;
+                        next_curr_pixel_counter = curr_pixel_counter;
                         next_curr_weight_counter = curr_weight_counter;
+                        next_out_valid = 'd0;
             end
     endcase
 end
@@ -227,6 +245,7 @@ end
 always@(posedge clk or posedge rst)begin
     if(rst)begin
         out_valid <= 'd0;
+        out_valid_2 <= 'd0;
         counter <= 'd0;
 
         //value container
@@ -285,19 +304,41 @@ always@(posedge clk or posedge rst)begin
 
             if(curr_state == LOAD_WEIGHT)begin
                 //Mux can be parralle
-                if (counter[1:0]=='d1) weight_container[word_length-1 -:word_length] <= reg_weight_value_2;
-                else if (counter[1:0]=='d2) weight_container[word_length*2-1 -:word_length] <= reg_weight_value_2;
-                else if (counter[1:0]=='d3) weight_container[word_length*3-1 -:word_length] <= reg_weight_value_2;
-                else weight_container[word_length*4-1 -:word_length] <= reg_weight_value_2;
-                weight_cols_container <= (weight_next_cols_container << col_length) + reg_weight_cols_2;
-                weight_rows_container <= (weight_next_rows_container << col_length) + reg_weight_rows_2;
-                out_valid <= 'd1;
+                if (counter[1:0]=='d1) begin
+                    weight_container[word_length-1 -:word_length] <= reg_weight_value_2;
+                    weight_cols_container[col_length-1 -:col_length] <= reg_weight_cols_2;
+                    weight_rows_container[col_length-1 -:col_length] <= reg_weight_rows_2;
+                end
+                else if (counter[1:0]=='d2) begin 
+                    weight_container[word_length*2-1 -:word_length] <= reg_weight_value_2;
+                    weight_cols_container[col_length*2-1 -:col_length] <= reg_weight_cols_2;
+                    weight_rows_container[col_length*2-1 -:col_length] <= reg_weight_rows_2;
+                end
+                else if (counter[1:0]=='d3) begin
+                    weight_container[word_length*3-1 -:word_length] <= reg_weight_value_2;
+                    weight_cols_container[col_length*3-1 -:col_length] <= reg_weight_cols_2;
+                    weight_rows_container[col_length*3-1 -:col_length] <= reg_weight_rows_2;
+                end
+                else begin 
+                    weight_container[word_length*4-1 -:word_length] <= reg_weight_value_2;
+                    weight_cols_container[col_length*4-1 -:col_length] <= reg_weight_cols_2;
+                    weight_rows_container[col_length*4-1 -:col_length] <= reg_weight_rows_2;
+                end
+                // wrong method ! no shift
+                //weight_cols_container <= (weight_next_cols_container << col_length) + reg_weight_cols_2;
+                //weight_rows_container <= (weight_next_rows_container << col_length) + reg_weight_rows_2;
+                //out_valid <= 'd1;
+                
             end
+            
+            
+            
             feature_container <= (feature_next_container << word_length*4) + reg_feature_value_2;
             
             feature_cols_container <= (feature_next_cols_container << col_length*4 ) + reg_feature_cols_2;
             feature_rows_container <= (feature_next_rows_container << col_length*4 ) + reg_feature_rows_2;
-            
+            out_valid_2 <= next_out_valid;
+            out_valid <= out_valid_2;
             //calculate
             //
             curr_pixel_counter <= next_curr_pixel_counter;

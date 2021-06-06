@@ -33,14 +33,14 @@ wire signed [col_length*4 -1:0]data_in_cols,data_in_rows;
 wire signed [word_length*1 -1:0] weight_in;
 wire signed [word_length*4 -1:0] data_in;
 
-assign weight_in_cols = (curr_weight<'d27)?weight_cols[(curr_weight+1)*col_length-1 -:col_length]:'d0;
-assign weight_in_rows = (curr_weight<'d27)?weight_rows[(curr_weight+1)*col_length-1 -:col_length]:'d0;
-assign weight_in = (curr_weight<'d27)?weight_value[(curr_weight+1)*word_length-1 -:word_length]:'d0;
+assign weight_in_cols = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?weight_cols[(curr_weight+1)*col_length-1 -:col_length]:'d0;
+assign weight_in_rows = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?weight_rows[(curr_weight+1)*col_length-1 -:col_length]:'d0;
+assign weight_in = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?weight_value[(curr_weight+1)*word_length-1 -:word_length]:'d0;
 
 
-assign data_in_cols = (curr_weight<'d27)?feature_cols[(curr_pixel+1)*4*col_length-1 -:col_length*4]:'d0;
-assign data_in_rows = (curr_weight<'d27)?feature_rows[(curr_pixel+1)*4*col_length-1 -:col_length*4]:'d0;
-assign data_in = (curr_weight<'d27)?feature_value[(curr_pixel+1)*4*word_length-1 -:word_length*4]:'d0;
+assign data_in_cols = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?feature_cols[(curr_pixel+1)*4*col_length-1 -:col_length*4]:'d0;
+assign data_in_rows = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?feature_rows[(curr_pixel+1)*4*col_length-1 -:col_length*4]:'d0;
+assign data_in = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?feature_value[(curr_pixel+1)*4*word_length-1 -:word_length*4]:'d0;
 
 
 PE_UNIT #(
@@ -58,6 +58,7 @@ PE_UNIT #(
     .feature_value(data_in), 
     .feature_cols(data_in_cols),
     .feature_rows(data_in_rows), 
+    .weight_valid_num(weight_valid_num),
     .weight_value(weight_in), 
     .weight_cols(weight_in_cols),
     .weight_rows(weight_in_rows), 
