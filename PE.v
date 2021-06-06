@@ -1,3 +1,4 @@
+`include "PE_UNIT.v"
 module PE
 #(
     parameter col_length = 8,
@@ -10,6 +11,7 @@ module PE
   input         clk,
   input         rst,
   input         in_valid,
+  input   [double_word_length-1:0] in_channel,
   input   [double_word_length-1:0] feature_valid_num,
   input   [52*word_length-1:0] feature_value,
   input   [52*col_length-1:0] feature_cols,
