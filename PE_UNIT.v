@@ -28,7 +28,7 @@ module PE_UNIT
     input signed [word_length*4 -1:0]feature_value,
     
     //output data
-    output signed [word_length*16 -1:0]data_out,
+    output signed [word_length*2*16 -1:0]data_out,
     output signed [col_length*16 -1:0]data_out_cols,
     output signed [col_length*16 -1:0]data_out_rows,
 
@@ -77,29 +77,34 @@ reg signed [col_length*4-1:0] reg_feature_rows,reg_feature_rows_2;
 
 
 wire signed [word_length*2-1:0] answer_1_1,answer_1_2,answer_1_3,answer_1_4,answer_2_1,answer_2_2,answer_2_3,answer_2_4,answer_3_1,answer_3_2,answer_3_3,answer_3_4,answer_4_1,answer_4_2,answer_4_3,answer_4_4; 
-wire [col_length-1:0] col_answer_1_1,col_answer_1_2,col_answer_1_3,col_answer_1_4,col_answer_2_1,col_answer_2_2,col_answer_2_3,col_answer_2_4,col_answer_3_1,col_answer_3_2,col_answer_3_3,col_answer_3_4,col_answer_4_1,col_answer_4_2,col_answer_4_3,col_answer_4_4; 
-wire [col_length-1:0] row_answer_1_1,row_answer_1_2,row_answer_1_3,row_answer_1_4,row_answer_2_1,row_answer_2_2,row_answer_2_3,row_answer_2_4,row_answer_3_1,row_answer_3_2,row_answer_3_3,row_answer_3_4,row_answer_4_1,row_answer_4_2,row_answer_4_3,row_answer_4_4; 
+wire signed [col_length-1:0] col_answer_1_1,col_answer_1_2,col_answer_1_3,col_answer_1_4,col_answer_2_1,col_answer_2_2,col_answer_2_3,col_answer_2_4,col_answer_3_1,col_answer_3_2,col_answer_3_3,col_answer_3_4,col_answer_4_1,col_answer_4_2,col_answer_4_3,col_answer_4_4; 
+wire signed [col_length-1:0] row_answer_1_1,row_answer_1_2,row_answer_1_3,row_answer_1_4,row_answer_2_1,row_answer_2_2,row_answer_2_3,row_answer_2_4,row_answer_3_1,row_answer_3_2,row_answer_3_3,row_answer_3_4,row_answer_4_1,row_answer_4_2,row_answer_4_3,row_answer_4_4; 
 
 //answer is weight * feature
-assign answer_1_1 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[word_length-1 -:word_length]):'d0;
-assign answer_1_2 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*2)-1 -:word_length]):'d0;
-assign answer_1_3 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*3)-1 -:word_length]):'d0;
-assign answer_1_4 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0]) * $signed(feature_container[(word_length*4)-1 -:word_length]):'d0;
 
-assign answer_2_1 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*5)-1 -:word_length]):'d0;
-assign answer_2_2 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*6)-1 -:word_length]):'d0;
-assign answer_2_3 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*7)-1 -:word_length]):'d0;
-assign answer_2_4 = (out_valid==1'b1)? $signed(weight_container[2*word_length-1 -:word_length]) * $signed(feature_container[(word_length*8)-1 -:word_length]):'d0;
+//assign answer_1_1 = (out_valid==1'b1)? $signed({ {word_length{weight_container[word_length-1]}},weight_container[word_length-1 -:word_length]}) * $signed({ {word_length{feature_container[(word_length*1)-1]}},feature_container[(word_length*1)-1 -:word_length]})  :'d0;
+//assign answer_1_1 = (out_valid==1'b1)? $signed(weight_container[word_length-1:0] * feature_container[(word_length*1)-1 -:word_length]):'d0;
+assign answer_1_1 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*1-1]}},{weight_container[word_length*1-1 -:word_length]}} * {{word_length{feature_container[(word_length*1)-1] }},{feature_container[(word_length*1)-1 -:word_length]}} ):'d0;
+assign answer_1_2 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*1-1]}},{weight_container[word_length*1-1 -:word_length]}} * {{word_length{feature_container[(word_length*2)-1] }},{feature_container[(word_length*2)-1 -:word_length]}} ):'d0;
+assign answer_1_3 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*1-1]}},{weight_container[word_length*1-1 -:word_length]}} * {{word_length{feature_container[(word_length*3)-1] }},{feature_container[(word_length*3)-1 -:word_length]}} ):'d0;
+assign answer_1_4 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*1-1]}},{weight_container[word_length*1-1 -:word_length]}} * {{word_length{feature_container[(word_length*4)-1] }},{feature_container[(word_length*4)-1 -:word_length]}} ):'d0;
 
-assign answer_3_1 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*9)-1 -:word_length]):'d0;
-assign answer_3_2 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*10)-1 -:word_length]):'d0;
-assign answer_3_3 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*11)-1 -:word_length]):'d0;
-assign answer_3_4 = (out_valid==1'b1)? $signed(weight_container[3*word_length-1 -:word_length]) * $signed(feature_container[(word_length*12)-1 -:word_length]):'d0;
+assign answer_2_1 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*2-1]}},{weight_container[word_length*2-1 -:word_length]}} * {{word_length{feature_container[(word_length*5)-1] }},{feature_container[(word_length*5)-1 -:word_length]}} ):'d0;
+assign answer_2_2 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*2-1]}},{weight_container[word_length*2-1 -:word_length]}} * {{word_length{feature_container[(word_length*6)-1] }},{feature_container[(word_length*6)-1 -:word_length]}} ):'d0;
+assign answer_2_3 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*2-1]}},{weight_container[word_length*2-1 -:word_length]}} * {{word_length{feature_container[(word_length*7)-1] }},{feature_container[(word_length*7)-1 -:word_length]}} ):'d0;
+assign answer_2_4 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*2-1]}},{weight_container[word_length*2-1 -:word_length]}} * {{word_length{feature_container[(word_length*8)-1] }},{feature_container[(word_length*8)-1 -:word_length]}} ):'d0;
 
-assign answer_4_1 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*13)-1 -:word_length]):'d0;
-assign answer_4_2 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*14)-1 -:word_length]):'d0;
-assign answer_4_3 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*15)-1 -:word_length]):'d0;
-assign answer_4_4 = (out_valid==1'b1)? $signed(weight_container[4*word_length-1 -:word_length]) * $signed(feature_container[(word_length*16)-1 -:word_length]):'d0;
+assign answer_3_1 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*3-1]}},{weight_container[word_length*3-1 -:word_length]}} * {{word_length{feature_container[(word_length*9)-1] }},{feature_container[(word_length*9)-1 -:word_length]}} ):'d0;
+assign answer_3_2 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*3-1]}},{weight_container[word_length*3-1 -:word_length]}} * {{word_length{feature_container[(word_length*10)-1] }},{feature_container[(word_length*10)-1 -:word_length]}} ):'d0;
+assign answer_3_3 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*3-1]}},{weight_container[word_length*3-1 -:word_length]}} * {{word_length{feature_container[(word_length*11)-1] }},{feature_container[(word_length*11)-1 -:word_length]}} ):'d0;
+assign answer_3_4 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*3-1]}},{weight_container[word_length*3-1 -:word_length]}} * {{word_length{feature_container[(word_length*12)-1] }},{feature_container[(word_length*12)-1 -:word_length]}} ):'d0;
+
+assign answer_4_1 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*4-1]}},{weight_container[word_length*4-1 -:word_length]}} * {{word_length{feature_container[(word_length*13)-1] }},{feature_container[(word_length*13)-1 -:word_length]}} ):'d0;
+assign answer_4_2 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*4-1]}},{weight_container[word_length*4-1 -:word_length]}} * {{word_length{feature_container[(word_length*14)-1] }},{feature_container[(word_length*14)-1 -:word_length]}} ):'d0;
+assign answer_4_3 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*4-1]}},{weight_container[word_length*4-1 -:word_length]}} * {{word_length{feature_container[(word_length*15)-1] }},{feature_container[(word_length*15)-1 -:word_length]}} ):'d0;
+assign answer_4_4 = (out_valid==1'b1)? $signed( {{word_length{weight_container[word_length*4-1]}},{weight_container[word_length*4-1 -:word_length]}} * {{word_length{feature_container[(word_length*16)-1] }},{feature_container[(word_length*16)-1 -:word_length]}} ):'d0;
+
+
 
 //rows/cols is feature rows/cols - weight rows/cols
 assign col_answer_1_1 = (out_valid==1'b1)? $signed( feature_cols_container[col_length-1   -: col_length]) - $signed( weight_cols_container[col_length-1 -: col_length]):'d0;
@@ -144,10 +149,16 @@ assign row_answer_4_3 = (out_valid==1'b1)? $signed( feature_rows_container[col_l
 assign row_answer_4_4 = (out_valid==1'b1)? $signed( feature_rows_container[col_length*16-1 -: col_length]) - $signed( weight_rows_container[(col_length*4)-1 -: col_length]):'d0;
 
 // perform fixpoint multiplication
-assign data_out[word_length*4 -1 -:word_length*4] = {{answer_1_4[(word_length+word_length/2)-1 -:word_length]},{answer_1_3[(word_length+word_length/2)-1 -:word_length]},{answer_1_2[(word_length+word_length/2)-1 -:word_length]},{answer_1_1[(word_length+word_length/2)-1 -:word_length]}};
-assign data_out[word_length*8 -1 -:word_length*4] = {{answer_2_4[(word_length+word_length/2)-1 -:word_length]},{answer_2_3[(word_length+word_length/2)-1 -:word_length]},{answer_2_2[(word_length+word_length/2)-1 -:word_length]},{answer_2_1[(word_length+word_length/2)-1 -:word_length]}};
-assign data_out[word_length*12 -1 -:word_length*4] = {{answer_3_4[(word_length+word_length/2)-1 -:word_length]},{answer_3_3[(word_length+word_length/2)-1 -:word_length]},{answer_3_2[(word_length+word_length/2)-1 -:word_length]},{answer_3_1[(word_length+word_length/2)-1 -:word_length]}};
-assign data_out[word_length*16 -1 -:word_length*4] = {{answer_4_4[(word_length+word_length/2)-1 -:word_length]},{answer_4_3[(word_length+word_length/2)-1 -:word_length]},{answer_4_2[(word_length+word_length/2)-1 -:word_length]},{answer_4_1[(word_length+word_length/2)-1 -:word_length]}};
+// assign data_out[word_length*4 -1 -:word_length*4] = {{answer_1_4[(word_length+word_length/2)-1 -:word_length]},{answer_1_3[(word_length+word_length/2)-1 -:word_length]},{answer_1_2[(word_length+word_length/2)-1 -:word_length]},{answer_1_1[(word_length+word_length/2)-1 -:word_length]}};
+// assign data_out[word_length*8 -1 -:word_length*4] = {{answer_2_4[(word_length+word_length/2)-1 -:word_length]},{answer_2_3[(word_length+word_length/2)-1 -:word_length]},{answer_2_2[(word_length+word_length/2)-1 -:word_length]},{answer_2_1[(word_length+word_length/2)-1 -:word_length]}};
+// assign data_out[word_length*12 -1 -:word_length*4] = {{answer_3_4[(word_length+word_length/2)-1 -:word_length]},{answer_3_3[(word_length+word_length/2)-1 -:word_length]},{answer_3_2[(word_length+word_length/2)-1 -:word_length]},{answer_3_1[(word_length+word_length/2)-1 -:word_length]}};
+// assign data_out[word_length*16 -1 -:word_length*4] = {{answer_4_4[(word_length+word_length/2)-1 -:word_length]},{answer_4_3[(word_length+word_length/2)-1 -:word_length]},{answer_4_2[(word_length+word_length/2)-1 -:word_length]},{answer_4_1[(word_length+word_length/2)-1 -:word_length]}};
+
+assign data_out[word_length*2*4 -1 -:word_length*2*4] = {{answer_1_4},{answer_1_3},{answer_1_2},{answer_1_1}};
+assign data_out[word_length*2*8 -1 -:word_length*2*4] = {{answer_2_4},{answer_2_3},{answer_2_2},{answer_2_1}};
+assign data_out[word_length*2*12 -1 -:word_length*2*4] = {{answer_3_4},{answer_3_3},{answer_3_2},{answer_3_1}};
+assign data_out[word_length*2*16 -1 -:word_length*2*4] = {{answer_4_4},{answer_4_3},{answer_4_2},{answer_4_1}};
+
 //{4 3 2 1}
 assign data_out_cols = {col_answer_4_4,col_answer_4_3,col_answer_4_2,col_answer_4_1, col_answer_3_4,col_answer_3_3,col_answer_3_2,col_answer_3_1, col_answer_2_4,col_answer_2_3,col_answer_2_2,col_answer_2_1, col_answer_1_4,col_answer_1_3,col_answer_1_2,col_answer_1_1};
 assign data_out_rows = {row_answer_4_4,row_answer_4_3,row_answer_4_2,row_answer_4_1, row_answer_3_4,row_answer_3_3,row_answer_3_2,row_answer_3_1, row_answer_2_4,row_answer_2_3,row_answer_2_2,row_answer_2_1, row_answer_1_4,row_answer_1_3,row_answer_1_2,row_answer_1_1};

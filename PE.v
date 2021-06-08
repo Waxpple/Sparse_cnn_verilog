@@ -22,7 +22,7 @@ module PE
   input   [28*col_length-1:0] weight_rows,
   
   output  out_valid,
-  output signed [word_length*16 -1:0]data_out,
+  output signed [word_length*2*16 -1:0]data_out,
   output signed [col_length*16 -1:0]data_out_cols,
   output signed [col_length*16 -1:0]data_out_rows
   
