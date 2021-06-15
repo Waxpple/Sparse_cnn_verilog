@@ -4,7 +4,7 @@ module CSR#
     parameter word_length = 8,
     parameter double_word_length = 16,
     parameter kernel_size = 5,
-    parameter image_size = 36
+    parameter image_size = 28
 )
 (
     input clk,
