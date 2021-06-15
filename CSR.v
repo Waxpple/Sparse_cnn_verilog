@@ -33,15 +33,17 @@ always @(*) begin
         if(in_valid)begin
             next_counter = counter + 'd1;
             next_state = CAL;
-            next_col = counter % image_size;
-            next_row = counter / image_size;
             if (|data_in)begin
                 next_valid_num = valid_num + 'd1;
                 next_value = {data_in};
+                next_col = counter % image_size;
+                next_row = counter / image_size;
             end
             else begin
                 next_valid_num = valid_num;
                 next_value = value;
+                next_col = col;
+                next_row = row;
             end
         end
         else begin
@@ -56,15 +58,17 @@ always @(*) begin
     CAL: begin
         next_counter = counter + 'd1;
         next_state = CAL;
-        next_col = counter % image_size;
-        next_row = counter / image_size;
         if (|data_in)begin
             next_valid_num = valid_num + 'd1;
             next_value = {data_in};
+            next_col = counter % image_size;
+            next_row = counter / image_size;
             end
         else begin
             next_valid_num = valid_num;
             next_value = value;
+            next_col = col;
+            next_row = row;
         end
     end
     DONE: begin
