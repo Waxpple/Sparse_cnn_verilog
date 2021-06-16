@@ -62,22 +62,22 @@ always @(*) begin
         next_valid = 'd0;
     end
     CAL: begin
-        if (counter>image_size*image_size-2)begin
+        if (counter>image_size*image_size-1)begin
             next_counter = counter+ 1'd1;
             next_state = DONE;
             next_valid = 'd1;
-            if (|data_in)begin
-                next_valid_num = valid_num + 'd1;
-                next_value = {data_in};
-                next_col = counter % image_size;
-                next_row = counter / image_size;
-                end
-            else begin
-                next_valid_num = valid_num;
-                next_value = value;
-                next_col = col;
-                next_row = row;
-            end
+            // if (|data_in)begin
+            //     next_valid_num = valid_num + 'd1;
+            //     next_value = {data_in};
+            //     next_col = counter % image_size;
+            //     next_row = counter / image_size;
+            //     end
+            // else begin
+            next_valid_num = valid_num;
+            next_value = value;
+            next_col = col;
+            next_row = row;
+            //end
         end
         else begin
             next_counter = counter + 'd1;
