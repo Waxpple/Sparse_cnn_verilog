@@ -155,7 +155,32 @@ always @(*) begin
             next_counter = counter + 'd1;
             next_out_valid = 'd1;
             //load weight
-            next_weight_container[(counter+'d1)*word_length-1 -:word_length] = weight_value;
+            if(counter[1:0]=='d0)begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_value;
+                next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+            end
+            else if(counter[1:0]=='d1) begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                next_weight_container[word_length*2-1 -: word_length] = weight_value;
+                next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+            end
+            else if(counter[1:0]=='d2) begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                next_weight_container[word_length*3-1 -: word_length] = weight_value;
+                next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+            end
+            else if(counter[1:0]=='d3) begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                next_weight_container[word_length*4-1 -: word_length] = weight_value;
+            end
+
+            // next_weight_container[(counter+'d1)*word_length-1 -:word_length] = weight_value;
             next_weight_cols_container[(counter+'d1)*col_length-1 -:col_length] = weight_cols;
             next_weight_rows_container[(counter+'d1)*col_length-1 -:col_length] = weight_rows;
             next_curr_weight_counter = curr_weight_counter + 'd1;
@@ -203,7 +228,30 @@ always @(*) begin
             next_counter = counter + 'd1;
             next_out_valid = 'd1;
             //load weight
-            next_weight_container[(counter+'d1)*word_length-1 -:word_length] = weight_value;
+            if(counter[1:0]=='d0)begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_value;
+                next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+            end
+            else if(counter[1:0]=='d1) begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                next_weight_container[word_length*2-1 -: word_length] = weight_value;
+                next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+            end
+            else if(counter[1:0]=='d2) begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                next_weight_container[word_length*3-1 -: word_length] = weight_value;
+                next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+            end
+            else if(counter[1:0]=='d3) begin
+                next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                next_weight_container[word_length*4-1 -: word_length] = weight_value;
+            end
             next_weight_cols_container[(counter+'d1)*col_length-1 -:col_length] = weight_cols;
             next_weight_rows_container[(counter+'d1)*col_length-1 -:col_length] = weight_rows;
             next_curr_weight_counter = curr_weight_counter + 'd1;
@@ -236,7 +284,30 @@ always @(*) begin
                 next_counter = 'd0;
                 next_out_valid = 'd1;
                 //load weight
-                next_weight_container[(counter+'d1)*word_length-1 -:word_length] = weight_value;
+                if(counter[1:0]=='d0)begin
+                    next_weight_container[word_length*1-1 -: word_length] = weight_value;
+                    next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                    next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                    next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+                end
+                else if(counter[1:0]=='d1) begin
+                    next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                    next_weight_container[word_length*2-1 -: word_length] = weight_value;
+                    next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                    next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+                end
+                else if(counter[1:0]=='d2) begin
+                    next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                    next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                    next_weight_container[word_length*3-1 -: word_length] = weight_value;
+                    next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
+                end
+                else if(counter[1:0]=='d3) begin
+                    next_weight_container[word_length*1-1 -: word_length] = weight_container[word_length*1-1 -: word_length];
+                    next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
+                    next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
+                    next_weight_container[word_length*4-1 -: word_length] = weight_value;
+                end
                 next_weight_cols_container[(counter+'d1)*col_length-1 -:col_length] = weight_cols;
                 next_weight_rows_container[(counter+'d1)*col_length-1 -:col_length] = weight_rows;
                 next_curr_weight_counter = curr_weight_counter;
