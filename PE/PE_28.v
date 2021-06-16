@@ -47,7 +47,7 @@ assign data_in = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num
 
 
 
-PE_UNIT_NEW #(
+PE_UNIT_NEW_2 #(
     .col_length(col_length), 
     .word_length(word_length), 
     .double_word_length(double_word_length), 
