@@ -65,7 +65,7 @@ always @(*) begin
         if (counter>image_size*image_size-1)begin
             next_counter = counter+ 1'd1;
             next_state = DONE;
-            next_valid = 'd1;
+            next_valid = 'd0;
             // if (|data_in)begin
             //     next_valid_num = valid_num + 'd1;
             //     next_value = {data_in};
@@ -104,7 +104,7 @@ always @(*) begin
         next_value = value;
         next_col = col;
         next_row = row;
-        next_valid = valid;
+        next_valid = 'd1;
     end
     EXCEPTION: begin
         next_counter = counter;
