@@ -54,7 +54,7 @@ reg [1:0] curr_state,next_state;
 reg [double_word_length-1:0] curr_pixel_counter,next_curr_pixel_counter,curr_weight_counter,next_curr_weight_counter;
 assign curr_pixel = (curr_pixel_counter==feature_valid_num)?'d0:curr_pixel_counter;
 assign curr_weight = (curr_weight_counter>weight_valid_num)?'d0:curr_weight_counter;
-reg next_out_valid;
+reg next_out_valid,next_2_out_valid;
 //counter
 reg [double_word_length-1:0] counter, next_counter;
 //weight container
@@ -63,9 +63,9 @@ reg [col_length*matrix_width-1:0] weight_cols_container, next_weight_cols_contai
 reg [col_length*matrix_width-1:0] weight_rows_container, next_weight_rows_container;
 
 //feature container
-reg [word_length*matrix_width*matrix_width-1:0] feature_container, next_feature_container;
-reg [col_length*matrix_width*matrix_width-1:0] feature_cols_container, next_feature_cols_container;
-reg [col_length*matrix_width*matrix_width-1:0] feature_rows_container, next_feature_rows_container;
+reg [word_length*matrix_width*matrix_width-1:0] feature_container, next_feature_container,next_2_feature_container;
+reg [col_length*matrix_width*matrix_width-1:0] feature_cols_container, next_feature_cols_container,next_2_feature_cols_container;
+reg [col_length*matrix_width*matrix_width-1:0] feature_rows_container, next_feature_rows_container,next_2_feature_rows_container;
 
 
 wire signed [word_length*2-1:0] answer_1_1,answer_1_2,answer_1_3,answer_1_4,answer_2_1,answer_2_2,answer_2_3,answer_2_4,answer_3_1,answer_3_2,answer_3_3,answer_3_4,answer_4_1,answer_4_2,answer_4_3,answer_4_4; 
@@ -149,6 +149,7 @@ reg [word_length-1:0] w_value,next_w_value;
 reg [col_length-1:0] r_value,next_r_value,c_value,next_c_value;
 
 
+
 always @(*) begin
     case(curr_state)
     IDLE: begin
@@ -163,9 +164,9 @@ always @(*) begin
 
             next_curr_weight_counter = curr_weight_counter + 'd1;
             //load feature
-            next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
-            next_feature_cols_container = {feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
-            next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
+            next_feature_container = {next_2_feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
+            next_feature_cols_container = {next_2_feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
+            next_feature_rows_container = {next_2_feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
             next_curr_pixel_counter = curr_pixel_counter + 'd1;
 
         end
@@ -180,9 +181,9 @@ always @(*) begin
 
             next_curr_weight_counter = curr_weight_counter;
             //not load feature
-            next_feature_container = feature_container;
-            next_feature_cols_container = feature_cols_container;
-            next_feature_rows_container = feature_rows_container;
+            next_feature_container = next_2_feature_container;
+            next_feature_cols_container = next_2_feature_cols_container;
+            next_feature_rows_container = next_2_feature_rows_container;
             next_curr_pixel_counter = curr_pixel_counter;
         end
     end
@@ -198,9 +199,9 @@ always @(*) begin
 
             next_curr_weight_counter = curr_weight_counter;
             //load feature
-            next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
-            next_feature_cols_container = {feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
-            next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
+            next_feature_container = {next_2_feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
+            next_feature_cols_container = {next_2_feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
+            next_feature_rows_container = {next_2_feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
             next_curr_pixel_counter = curr_pixel_counter + 'd1;
         end
         else begin
@@ -215,9 +216,9 @@ always @(*) begin
 
             next_curr_weight_counter = curr_weight_counter + 'd1;
             //load feature
-            next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
-            next_feature_cols_container = {feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
-            next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
+            next_feature_container = {next_2_feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
+            next_feature_cols_container = {next_2_feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
+            next_feature_rows_container = {next_2_feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
             next_curr_pixel_counter = curr_pixel_counter + 'd1;
         end
     end
@@ -234,9 +235,9 @@ always @(*) begin
 
                 next_curr_weight_counter = curr_weight_counter;
                 //not load feature
-                next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
-                next_feature_cols_container = {feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
-                next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
+                next_feature_container = {next_2_feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
+            next_feature_cols_container = {next_2_feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
+            next_feature_rows_container = {next_2_feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
                 next_curr_pixel_counter = 'd0;
             end
             else begin
@@ -247,12 +248,11 @@ always @(*) begin
                 next_w_value = weight_value;
                 next_c_value = weight_cols;
                 next_r_value = weight_rows;
-
                 next_curr_weight_counter = curr_weight_counter;
                 //load feature and reLOAD
-                next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
-                next_feature_cols_container = {feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
-                next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
+                next_feature_container = {next_2_feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
+            next_feature_cols_container = {next_2_feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
+            next_feature_rows_container = {next_2_feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
                 next_curr_pixel_counter = 'd0;
             end
             
@@ -267,9 +267,9 @@ always @(*) begin
             next_r_value = r_value;
             next_curr_weight_counter = curr_weight_counter;
             //load feature
-            next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
-            next_feature_cols_container = {feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
-            next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
+            next_feature_container = {next_2_feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
+            next_feature_cols_container = {next_2_feature_cols_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_cols};
+            next_feature_rows_container = {next_2_feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
             next_curr_pixel_counter = curr_pixel_counter + 'd1;
         end
     end
@@ -283,9 +283,9 @@ always @(*) begin
             next_r_value = r_value;
             next_curr_weight_counter = curr_weight_counter;
             //not load feature
-            next_feature_container = feature_container;
-            next_feature_cols_container = feature_cols_container;
-            next_feature_rows_container = feature_rows_container;
+            next_feature_container = next_2_feature_container;
+            next_feature_cols_container = next_2_feature_cols_container;
+            next_feature_rows_container = next_2_feature_rows_container;
             next_curr_pixel_counter = curr_pixel_counter;
     end
     endcase
@@ -312,11 +312,16 @@ always @(posedge clk or posedge rst) begin
         w_value <= 'd0;
         c_value <= 'd0;
         r_value <= 'd0;
+        next_2_feature_container <= 'd0;
+        next_2_feature_cols_container <= 'd0;
+        next_2_feature_rows_container <= 'd0;
+        next_2_out_valid <= 'd0;
     end
     else begin
         curr_state <= next_state;
         counter <= next_counter;
-        out_valid <= next_out_valid;
+        next_2_out_valid <= next_out_valid;
+        out_valid <= next_2_out_valid;
         //value container
         //weight_container <= next_weight_container;
         w_value <= next_w_value;
@@ -326,12 +331,15 @@ always @(posedge clk or posedge rst) begin
         weight_container[(counter)*word_length-1 -:word_length] <= w_value;
         weight_cols_container[(counter)*col_length-1 -:col_length] <= c_value;
         weight_rows_container[(counter)*col_length-1 -:col_length] <= r_value;
-        
-        feature_container <= next_feature_container;
-        //cols/rows container
 
-        feature_cols_container <= next_feature_cols_container;
-        feature_rows_container <= next_feature_rows_container;
+
+        next_2_feature_container <= next_feature_container;
+        feature_container <= next_2_feature_container;
+        //cols/rows container
+        next_2_feature_cols_container <= next_feature_cols_container;
+        feature_cols_container <= next_2_feature_cols_container;
+        next_2_feature_rows_container <= next_feature_rows_container;
+        feature_rows_container <= next_2_feature_rows_container;
         //data_counter
         curr_weight_counter <= next_curr_weight_counter;
         curr_pixel_counter <= next_curr_pixel_counter;
