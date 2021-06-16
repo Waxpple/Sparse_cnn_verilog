@@ -160,9 +160,16 @@ always @(*) begin
             next_weight_container[word_length*2-1 -: word_length] = weight_container[word_length*2-1 -: word_length];
             next_weight_container[word_length*3-1 -: word_length] = weight_container[word_length*3-1 -: word_length];
             next_weight_container[word_length*4-1 -: word_length] = weight_container[word_length*4-1 -: word_length];
-           
-            next_weight_cols_container[col_length-1 -:col_length] = weight_cols;
-            next_weight_rows_container[col_length-1 -:col_length] = weight_rows;
+
+            next_weight_cols_container[col_length*1-1 -:col_length] = weight_cols;
+            next_weight_cols_container[col_length*2-1 -:col_length] = weight_cols_container[col_length*2-1 -:col_length];
+            next_weight_cols_container[col_length*3-1 -:col_length] = weight_cols_container[col_length*3-1 -:col_length];
+            next_weight_cols_container[col_length*4-1 -:col_length] = weight_cols_container[col_length*4-1 -:col_length];
+
+            next_weight_rows_container[col_length*1-1 -:col_length] = weight_rows;
+            next_weight_rows_container[col_length*2-1 -:col_length] = weight_rows_container[col_length*2-1 -:col_length];
+            next_weight_rows_container[col_length*3-1 -:col_length] = weight_rows_container[col_length*3-1 -:col_length];
+            next_weight_rows_container[col_length*4-1 -:col_length] = weight_rows_container[col_length*4-1 -:col_length];
             next_curr_weight_counter = curr_weight_counter + 'd1;
             //load feature
             next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
