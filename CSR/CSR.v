@@ -11,11 +11,11 @@ module CSR#
     input rst,
     input in_valid,
     input [word_length-1:0] data_in,
+    output out_valid,
     output reg [image_size*image_size*word_length-1:0] data_out,
     output reg [image_size*image_size*col_length-1:0] data_out_cols,
     output reg [image_size*image_size*col_length-1:0] data_out_rows,
-    output [double_word_length-1:0] valid_num_out,
-    output out_valid
+    output [double_word_length-1:0] valid_num_out
 );
 
 reg [double_word_length-1:0] counter,next_counter;
@@ -65,7 +65,7 @@ always @(*) begin
         if (counter>image_size*image_size-1)begin
             next_counter = counter+ 1'd1;
             next_state = DONE;
-            next_valid = 'd0;
+            next_valid = 'd1;
             // if (|data_in)begin
             //     next_valid_num = valid_num + 'd1;
             //     next_value = {data_in};

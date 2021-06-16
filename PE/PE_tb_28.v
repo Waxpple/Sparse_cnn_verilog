@@ -1085,7 +1085,7 @@ initial begin
             $display("START!\n");
     #10     rst = 1;
     #10     rst = 0;
-    #100    in_valid = 1;
+    #1000    in_valid = 1;
 
     #16000  
 // if(pixels_0_0!==16'hffb6) $display("ERROR! at (0,0)\n");
