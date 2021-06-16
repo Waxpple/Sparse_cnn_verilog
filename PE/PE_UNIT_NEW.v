@@ -145,7 +145,8 @@ assign data_out[word_length*2*16 -1 -:word_length*2*4] = {{answer_4_4},{answer_4
 assign data_out_cols = {col_answer_4_4,col_answer_4_3,col_answer_4_2,col_answer_4_1, col_answer_3_4,col_answer_3_3,col_answer_3_2,col_answer_3_1, col_answer_2_4,col_answer_2_3,col_answer_2_2,col_answer_2_1, col_answer_1_4,col_answer_1_3,col_answer_1_2,col_answer_1_1};
 assign data_out_rows = {row_answer_4_4,row_answer_4_3,row_answer_4_2,row_answer_4_1, row_answer_3_4,row_answer_3_3,row_answer_3_2,row_answer_3_1, row_answer_2_4,row_answer_2_3,row_answer_2_2,row_answer_2_1, row_answer_1_4,row_answer_1_3,row_answer_1_2,row_answer_1_1};
 
-reg [word_length-1:0] value,next_value;
+reg [word_length-1:0] w_value,next_w_value;
+reg [col_length-1:0] r_value,next_r_value,c_value,next_c_value;
 
 
 always @(*) begin
@@ -156,10 +157,10 @@ always @(*) begin
             next_counter = counter + 'd1;
             next_out_valid = 'd1;
             //load weight
-            //next_weight_container[(counter+'d1)*word_length-1 -:word_length] = weight_value;
-            next_value = weight_value;
-            next_weight_cols_container[(counter+'d1)*col_length-1 -:col_length] = weight_cols;
-            next_weight_rows_container[(counter+'d1)*col_length-1 -:col_length] = weight_rows;
+            next_w_value = weight_value;
+            next_c_value = weight_cols;
+            next_r_value = weight_rows;
+
             next_curr_weight_counter = curr_weight_counter + 'd1;
             //load feature
             next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
@@ -173,11 +174,11 @@ always @(*) begin
             next_counter = counter;
             next_out_valid = 'd0;
             //not load weight
-            //next_weight_container = weight_container;
-            next_value = value;
+            next_w_value = w_value;
+            next_c_value = c_value;
+            next_r_value = r_value;
+
             next_curr_weight_counter = curr_weight_counter;
-            next_weight_cols_container = weight_cols_container;
-            next_weight_rows_container = weight_rows_container;
             //not load feature
             next_feature_container = feature_container;
             next_feature_cols_container = feature_cols_container;
@@ -191,10 +192,10 @@ always @(*) begin
             next_counter = counter + 'd1;
             next_out_valid = 'd1;
             //not load weight
-            //next_weight_container = weight_container;
-            next_value = value;
-            next_weight_cols_container = weight_cols_container;
-            next_weight_rows_container = weight_rows_container;
+            next_w_value = w_value;
+            next_c_value = c_value;
+            next_r_value = r_value;
+
             next_curr_weight_counter = curr_weight_counter;
             //load feature
             next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
@@ -207,10 +208,11 @@ always @(*) begin
             next_counter = counter + 'd1;
             next_out_valid = 'd1;
             //load weight
-            //next_weight_container[(counter+'d1)*word_length-1 -:word_length] = weight_value;
-            next_value = weight_value;
-            next_weight_cols_container[(counter+'d1)*col_length-1 -:col_length] = weight_cols;
-            next_weight_rows_container[(counter+'d1)*col_length-1 -:col_length] = weight_rows;
+
+            next_w_value = weight_value;
+            next_c_value = weight_cols;
+            next_r_value = weight_rows;
+
             next_curr_weight_counter = curr_weight_counter + 'd1;
             //load feature
             next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
@@ -226,10 +228,10 @@ always @(*) begin
                 next_counter = 'd0;
                 next_out_valid = 'd1;
                 //not load weight
-                //next_weight_container = weight_container;
-                next_value = value;
-                next_weight_cols_container = weight_cols_container;
-                next_weight_rows_container = weight_rows_container;
+                next_w_value = w_value;
+                next_c_value = c_value;
+                next_r_value = r_value;
+
                 next_curr_weight_counter = curr_weight_counter;
                 //not load feature
                 next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
@@ -242,10 +244,10 @@ always @(*) begin
                 next_counter = 'd0;
                 next_out_valid = 'd1;
                 //load weight
-                //next_weight_container[(counter+'d1)*word_length-1 -:word_length] = weight_value;
-                next_value = weight_value;
-                next_weight_cols_container[(counter+'d1)*col_length-1 -:col_length] = weight_cols;
-                next_weight_rows_container[(counter+'d1)*col_length-1 -:col_length] = weight_rows;
+                next_w_value = weight_value;
+                next_c_value = weight_cols;
+                next_r_value = weight_rows;
+
                 next_curr_weight_counter = curr_weight_counter;
                 //load feature and reLOAD
                 next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
@@ -260,10 +262,9 @@ always @(*) begin
             next_counter = counter + 'd1;
             next_out_valid = 'd1;
             //not load weight
-            //next_weight_container = weight_container;
-            next_value = value;
-            next_weight_cols_container = weight_cols_container;
-            next_weight_rows_container = weight_rows_container;
+            next_w_value = w_value;
+            next_c_value = c_value;
+            next_r_value = r_value;
             next_curr_weight_counter = curr_weight_counter;
             //load feature
             next_feature_container = {feature_container<<(word_length*matrix_width)} | {{((matrix_width-1)*word_length){1'b0}},feature_value};
@@ -277,10 +278,9 @@ always @(*) begin
             next_counter = counter;
             next_out_valid = 'd0;
             //not load weight
-            //next_weight_container = weight_container;
-            next_value = value;
-            next_weight_cols_container = weight_cols_container;
-            next_weight_rows_container = weight_rows_container;
+            next_w_value = w_value;
+            next_c_value = c_value;
+            next_r_value = r_value;
             next_curr_weight_counter = curr_weight_counter;
             //not load feature
             next_feature_container = feature_container;
@@ -309,7 +309,9 @@ always @(posedge clk or posedge rst) begin
         curr_pixel_counter <= 'd0;
 
         //
-        value <= 'd0;
+        w_value <= 'd0;
+        c_value <= 'd0;
+        r_value <= 'd0;
     end
     else begin
         curr_state <= next_state;
@@ -317,13 +319,17 @@ always @(posedge clk or posedge rst) begin
         out_valid <= next_out_valid;
         //value container
         //weight_container <= next_weight_container;
-        value <= next_value;
-        weight_container[(counter)*word_length-1 -:word_length] <= value;
+        w_value <= next_w_value;
+        c_value <= next_c_value;
+        r_value <= next_r_value;
+
+        weight_container[(counter)*word_length-1 -:word_length] <= w_value;
+        weight_cols_container[(counter)*col_length-1 -:col_length] <= c_value;
+        weight_rows_container[(counter)*col_length-1 -:col_length] <= r_value;
         
         feature_container <= next_feature_container;
         //cols/rows container
-        weight_cols_container <= next_weight_cols_container;
-        weight_rows_container <= next_weight_rows_container;
+
         feature_cols_container <= next_feature_cols_container;
         feature_rows_container <= next_feature_rows_container;
         //data_counter
