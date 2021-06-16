@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-module CSR_PE_tb();
+module CSR_PE_FIX_tb();
 parameter col_length = 8;
 parameter word_length = 8;
 parameter double_word_length = 16;
@@ -30,7 +30,7 @@ wire [double_word_length-1:0] valid_num_out;
 // PE Wire
 wire PE_out_valid;
 wire [double_word_length-1:0] PE_valid_num;
-assign PE_valid_num = 'd195;
+assign PE_valid_num = 'd784;
 wire signed [word_length*2*16 -1:0] PE_data_out;
 wire signed [col_length*16 -1:0] PE_data_out_cols;
 wire signed [col_length*16 -1:0] PE_data_out_rows;
@@ -2191,7 +2191,7 @@ PE#
     .clk(clk), 
     .rst(rst), 
     .in_valid(CSR_valid),
-    .feature_valid_num(PE_valid_num),
+    .feature_valid_num(valid_num_out),
     .feature_value(CSR_data_out),
     .feature_cols(CSR_data_out_cols),
     .feature_rows(CSR_data_out_rows),

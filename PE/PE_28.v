@@ -45,7 +45,9 @@ assign data_in_rows = (curr_weight<weight_valid_num || curr_pixel < feature_vali
 assign data_in = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?feature_value[(curr_pixel+1)*4*word_length-1 -:word_length*4]:'d0;
 
 
-PE_UNIT #(
+
+
+PE_UNIT_NEW #(
     .col_length(col_length), 
     .word_length(word_length), 
     .double_word_length(double_word_length), 
