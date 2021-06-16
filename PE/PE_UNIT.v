@@ -34,8 +34,8 @@ module PE_UNIT
     output signed [col_length*16 -1:0]data_out_rows,
 
     //valid signal
-    input signed [double_word_length-1:0] in_channel,
-    output signed [double_word_length-1:0] out_channel,
+    input [double_word_length-1:0] in_channel,
+    output reg [double_word_length-1:0] out_channel,
 
     
     //output counter status
@@ -68,6 +68,8 @@ reg [word_length*matrix_width*matrix_width-1:0] feature_container, next_feature_
 reg [col_length*matrix_width*matrix_width-1:0] feature_cols_container, next_feature_cols_container;
 reg [col_length*matrix_width*matrix_width-1:0] feature_rows_container, next_feature_rows_container;
 
+//channel
+reg [double_word_length-1:0] next_in_channel;
 
 wire signed [word_length*2-1:0] answer_1_1,answer_1_2,answer_1_3,answer_1_4,answer_2_1,answer_2_2,answer_2_3,answer_2_4,answer_3_1,answer_3_2,answer_3_3,answer_3_4,answer_4_1,answer_4_2,answer_4_3,answer_4_4; 
 wire signed [col_length-1:0] col_answer_1_1,col_answer_1_2,col_answer_1_3,col_answer_1_4,col_answer_2_1,col_answer_2_2,col_answer_2_3,col_answer_2_4,col_answer_3_1,col_answer_3_2,col_answer_3_3,col_answer_3_4,col_answer_4_1,col_answer_4_2,col_answer_4_3,col_answer_4_4; 
@@ -177,6 +179,7 @@ always @(*) begin
             next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
             next_curr_pixel_counter = curr_pixel_counter + 'd1;
 
+            next_in_channel = in_channel;
         end
         else begin
             next_state = IDLE;
@@ -192,6 +195,8 @@ always @(*) begin
             next_feature_cols_container = feature_cols_container;
             next_feature_rows_container = feature_rows_container;
             next_curr_pixel_counter = curr_pixel_counter;
+
+            next_in_channel = out_channel;
         end
     end
     LOAD_WEIGHT:begin
@@ -288,6 +293,8 @@ always @(*) begin
             next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
             next_curr_pixel_counter = curr_pixel_counter + 'd1;
         end
+
+        next_in_channel = in_channel;
     end
     LOAD_FULL_IMAGE:begin
         if((|feature_valid_num[1:0])? counter ==(feature_valid_num>>2)+'d1:counter ==(feature_valid_num>>2))begin
@@ -350,6 +357,7 @@ always @(*) begin
             next_feature_rows_container = {feature_rows_container<<(col_length*matrix_width)} | {{((matrix_width-1)*col_length){1'b0}},feature_rows};
             next_curr_pixel_counter = curr_pixel_counter + 'd1;
         end
+        next_in_channel = in_channel;
     end
     DONE:begin
             next_state = DONE;
@@ -365,6 +373,8 @@ always @(*) begin
             next_feature_cols_container = feature_cols_container;
             next_feature_rows_container = feature_rows_container;
             next_curr_pixel_counter = curr_pixel_counter;
+
+            next_in_channel = out_channel;
     end
     endcase
 end
@@ -385,6 +395,8 @@ always @(posedge clk or posedge rst) begin
         //data_counter
         curr_weight_counter <= 'd0;
         curr_pixel_counter <= 'd0;
+
+        out_channel <= 'd0;
     end
     else begin
         curr_state <= next_state;
@@ -401,6 +413,8 @@ always @(posedge clk or posedge rst) begin
         //data_counter
         curr_weight_counter <= next_curr_weight_counter;
         curr_pixel_counter <= next_curr_pixel_counter;
+    
+        out_channel <= next_in_channel;
     end
 end
 endmodule

@@ -27,6 +27,8 @@ wire [image_size*image_size*col_length-1:0] CSR_data_out_rows;
 wire [double_word_length-1:0] valid_num_out;
 
 // PE Wire
+reg [double_word_length-1:0] in_channel;
+wire [double_word_length-1:0] out_channel;
 wire PE_out_valid;
 wire [double_word_length-1:0] PE_valid_num;
 assign PE_valid_num = 'd784;
@@ -1079,6 +1081,7 @@ initial begin
             PE_result = 0;
             data_in = 0;
             in_valid = 0;
+            in_channel = 'd1;
     #10     rst = 1;
     #10     rst = 0;
     #100    in_valid = 1;
@@ -2190,6 +2193,7 @@ PE#
     .clk(clk), 
     .rst(rst), 
     .in_valid(CSR_valid),
+    .in_channel(in_channel),
     .feature_valid_num(valid_num_out),
     .feature_value(CSR_data_out),
     .feature_cols(CSR_data_out_cols),
@@ -2201,7 +2205,8 @@ PE#
     .data_out(PE_data_out),
     .data_out_cols(PE_data_out_cols),
     .data_out_rows(PE_data_out_rows),
-    .out_valid(PE_out_valid)
+    .out_valid(PE_out_valid),
+    .out_channel(out_channel)
 );
 
 

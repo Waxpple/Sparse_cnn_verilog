@@ -24,8 +24,8 @@ module PE
   output  out_valid,
   output signed [word_length*2*16 -1:0]data_out,
   output signed [col_length*16 -1:0]data_out_cols,
-  output signed [col_length*16 -1:0]data_out_rows
-  
+  output signed [col_length*16 -1:0]data_out_rows,
+  output [double_word_length-1:0] out_channel
 );
 
 // TODO
@@ -43,7 +43,6 @@ assign weight_in = (curr_weight<weight_valid_num || curr_pixel < feature_valid_n
 assign data_in_cols = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?feature_cols[(curr_pixel+1)*4*col_length-1 -:col_length*4]:'d0;
 assign data_in_rows = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?feature_rows[(curr_pixel+1)*4*col_length-1 -:col_length*4]:'d0;
 assign data_in = (curr_weight<weight_valid_num || curr_pixel < feature_valid_num)?feature_value[(curr_pixel+1)*4*word_length-1 -:word_length*4]:'d0;
-
 
 
 
@@ -71,7 +70,8 @@ PE_UNIT #(
     .data_out_cols(data_out_cols),
     .data_out_rows(data_out_rows),
     .curr_pixel(curr_pixel),
-    .curr_weight(curr_weight)
+    .curr_weight(curr_weight),
+    .out_channel(out_channel)
 );
 
 
