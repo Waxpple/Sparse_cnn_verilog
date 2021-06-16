@@ -13,7 +13,9 @@ module CSR#
     input [word_length-1:0] data_in,
     output reg [image_size*image_size*word_length-1:0] data_out,
     output reg [image_size*image_size*col_length-1:0] data_out_cols,
-    output reg [image_size*image_size*col_length-1:0] data_out_rows 
+    output reg [image_size*image_size*col_length-1:0] data_out_rows,
+    output [double_word_length-1:0] valid_num_out,
+    output out_valid
 );
 
 reg [double_word_length-1:0] counter,next_counter;
@@ -23,6 +25,9 @@ reg [double_word_length-1:0] valid_num,next_valid_num;
 reg [word_length-1:0] value,next_value;
 reg [col_length-1:0] col,next_col,row,next_row;
 
+reg valid,next_valid;
+assign out_valid = valid;
+assign valid_num_out = valid_num;
 parameter IDLE = 2'b00;
 parameter CAL = 2'b01;
 parameter DONE = 2'b10;
@@ -54,38 +59,61 @@ always @(*) begin
             next_col = col;
             next_row = row;
         end
+        next_valid = 'd0;
     end
     CAL: begin
-        next_counter = counter + 'd1;
-        next_state = CAL;
-        if (|data_in)begin
-            next_valid_num = valid_num + 'd1;
-            next_value = {data_in};
-            next_col = counter % image_size;
-            next_row = counter / image_size;
+        if (counter>image_size*image_size-2)begin
+            next_counter = counter+ 1'd1;
+            next_state = DONE;
+            next_valid = 'd1;
+            if (|data_in)begin
+                next_valid_num = valid_num + 'd1;
+                next_value = {data_in};
+                next_col = counter % image_size;
+                next_row = counter / image_size;
+                end
+            else begin
+                next_valid_num = valid_num;
+                next_value = value;
+                next_col = col;
+                next_row = row;
             end
+        end
         else begin
-            next_valid_num = valid_num;
-            next_value = value;
-            next_col = col;
-            next_row = row;
+            next_counter = counter + 'd1;
+            next_state = CAL;
+            next_valid = 'd0;
+            if (|data_in)begin
+                next_valid_num = valid_num + 'd1;
+                next_value = {data_in};
+                next_col = counter % image_size;
+                next_row = counter / image_size;
+                end
+            else begin
+                next_valid_num = valid_num;
+                next_value = value;
+                next_col = col;
+                next_row = row;
+            end
         end
     end
     DONE: begin
         next_counter = counter;
-        next_state = IDLE;
+        next_state = DONE;
         next_valid_num = valid_num;
         next_value = value;
         next_col = col;
         next_row = row;
+        next_valid = valid;
     end
     EXCEPTION: begin
         next_counter = counter;
-        next_state = IDLE;
+        next_state = EXCEPTION;
         next_valid_num = valid_num;
         next_value = value;
         next_col = col;
         next_row = row;
+        next_valid = valid;
     end
     endcase
     
@@ -101,6 +129,7 @@ always @(posedge clk or posedge rst) begin
         value <= 'd0;
         col <= 'd0;
         row <= 'd0;
+        valid <= 'd0;
     end
     else begin
         counter <= next_counter; 
@@ -112,6 +141,7 @@ always @(posedge clk or posedge rst) begin
         data_out[(valid_num)*word_length-1-:word_length] <= value;
         data_out_cols[(valid_num)*col_length-1-:col_length] <= col;
         data_out_rows[(valid_num)*col_length-1-:col_length] <= row;
+        valid <= next_valid;
     end
 end
 endmodule
