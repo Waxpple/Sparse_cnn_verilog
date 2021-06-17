@@ -37,7 +37,8 @@ module traditional_conv
     input [word_length-1:0] pixels_4_3,
     input [word_length-1:0] pixels_4_4,
     output [word_length*2-1:0] result,
-    output reg out_valid
+    output reg out_valid,
+    output done_signal
     
 );
 reg [1:0] curr_state,next_state;
@@ -48,6 +49,7 @@ parameter DONE = 2'b11;
 
 reg [double_word_length-1:0] counter,next_counter;
 
+assign done_signal = (curr_state==DONE)?1'd1:1'd0;
 
 genvar i;
 

@@ -116,6 +116,7 @@ u2
     .pixels_4_3(pixels_4_3),
     .pixels_4_4(pixels_4_4),
     .result(result),
-    .out_valid(traditional_conv_out_valid)
+    .out_valid(traditional_conv_out_valid),
+    .done_signal(out_valid)
 );
 endmodule

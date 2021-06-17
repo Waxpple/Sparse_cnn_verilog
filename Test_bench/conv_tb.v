@@ -2109,7 +2109,7 @@ conv #(
     .weight_value(weight_value),
     .data_in(data_in),
     .data_out(data_out),
-    .out_valid()
+    .out_valid(out_valid)
 );
 
 endmodule
