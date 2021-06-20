@@ -1,0 +1,51 @@
+ncverilog: 15.20-s084: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s084: Started on Jun 20, 2021 at 14:46:51 CST
+ncverilog
+	TESTBED.v
+	conv.v
+	+define+RTL
+	+access+rw
+	+notimingchecks
+Recompiling... reason: file './TESTBED.v' is newer than expected.
+	expected: Sun Jun 20 11:18:53 2021
+	actual:   Sun Jun 20 14:46:49 2021
+file: TESTBED.v
+	module worklib.TESTBED:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		worklib.TESTBED:v <0x24271c35>
+			streams:  42, words: 16330
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                  Instances  Unique
+		Modules:                  4       4
+		Registers:               37      37
+		Scalar wires:             6       -
+		Expanded wires:         200      25
+		Vectored wires:          28       -
+		Always blocks:          586      11
+		Initial blocks:           7       7
+		Cont. assignments:       33      29
+		Pseudo assignments:       4       4
+		Simulation timescale:  10ps
+	Writing initial simulation snapshot: worklib.TESTBED:v
+Loading snapshot worklib.TESTBED:v .................... Done
+*Verdi* Loading libsscore_ius152.so
+ncsim> source /usr/cad/cadence/INCISIV/cur/tools/inca/files/ncsimrc
+ncsim> run
+FSDB Dumper for IUS, Release Verdi_R-2020.12, Linux, 11/19/2020
+(C) 1996 - 2020 by Synopsys, Inc.
+*Verdi* FSDB WARNING: The FSDB file already exists. Overwriting the FSDB file may crash the programs that are using this file.
+*Verdi* : Create FSDB file 'conv_RTL.fsdb'
+*Verdi* : Begin traversing the scope (TESTBED), layer (0).
+*Verdi* : End of traversing.
+Value error number:           0
+
+Simulation complete via $finish(1) at time 7875 NS + 3
+./TESTBED.v:145     $finish();
+ncsim> exit
+TOOL:	ncverilog	15.20-s084: Exiting on Jun 20, 2021 at 14:46:54 CST  (total: 00:00:03)

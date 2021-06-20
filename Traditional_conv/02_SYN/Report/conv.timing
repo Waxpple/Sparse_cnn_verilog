@@ -1,0 +1,73 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : conv
+Version: R-2020.09-SP5
+Date   : Sun Jun 20 14:39:58 2021
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: top
+
+  Startpoint: u2/data_out_reg[353]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: data_out_reg[13]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  conv               G5K                   fsa0m_a_generic_core_ss1p62v125c
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock clk (rise edge)                    0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  u2/data_out_reg[353]/CK (QDFFRBS)        0.00 #     0.00 r
+  u2/data_out_reg[353]/Q (QDFFRBS)         0.43       0.43 f
+  U11213/CO (FA1S)                         0.55       0.99 f
+  U11193/S (FA1S)                          0.71       1.70 r
+  U13933/CO (FA1)                          0.27       1.97 r
+  U11204/S (FA1S)                          0.52       2.49 f
+  U11219/S (FA1S)                          0.66       3.15 r
+  U11222/S (FA1S)                          0.53       3.68 f
+  U11290/CO (FA1S)                         0.49       4.16 f
+  U11289/S (FA1S)                          0.49       4.65 f
+  U16970/CO (FA1)                          0.41       5.07 f
+  U16763/CO (FA1)                          0.38       5.45 f
+  U10998/O (INV1S)                         0.11       5.56 r
+  U11085/O (MOAI1)                         0.10       5.67 f
+  U17394/CO (FA1)                          0.39       6.05 f
+  U10994/O (INV1S)                         0.11       6.17 r
+  U11084/O (MOAI1)                         0.10       6.27 f
+  U16429/CO (FA1)                          0.39       6.66 f
+  U10993/O (INV1S)                         0.11       6.78 r
+  U11077/O (MOAI1)                         0.10       6.88 f
+  U14001/CO (FA1)                          0.36       7.25 f
+  U15677/CO (FA1)                          0.36       7.60 f
+  U10908/S (FA1)                           0.39       7.99 f
+  U10907/O (INV3)                          1.39       9.38 r
+  U16540/O (MOAI1S)                        0.31       9.70 f
+  data_out_reg[13]/D (QDFFRBS)             0.00       9.70 f
+  data arrival time                                   9.70
+
+  clock clk (rise edge)                   10.00      10.00
+  clock network delay (ideal)              0.00      10.00
+  clock uncertainty                       -0.10       9.90
+  data_out_reg[13]/CK (QDFFRBS)            0.00       9.90 r
+  library setup time                      -0.20       9.70
+  data required time                                  9.70
+  -----------------------------------------------------------
+  data required time                                  9.70
+  data arrival time                                  -9.70
+  -----------------------------------------------------------
+  slack (MET)                                         0.00
+
+
+1

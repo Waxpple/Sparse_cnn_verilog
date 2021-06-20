@@ -30,7 +30,7 @@ always @(*) begin
         next_counter = counter + 'd1;
     end
     else begin
-        next_data_out = data_out[15:0];
+        next_data_out = result;
         next_counter = counter;
     end
     

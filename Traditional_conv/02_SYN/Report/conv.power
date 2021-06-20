@@ -1,0 +1,56 @@
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : conv
+Version: R-2020.09-SP5
+Date   : Sun Jun 20 14:39:57 2021
+****************************************
+
+
+Library(s) Used:
+
+    fsa0m_a_generic_core_ss1p62v125c (File: /home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis/fsa0m_a_generic_core_ss1p62v125c.db)
+
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+conv                   G5K               fsa0m_a_generic_core_ss1p62v125c
+
+
+Global Operating Voltage = 1.62 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  =  41.3411 mW   (96%)
+  Net Switching Power  =   1.7556 mW    (4%)
+                         ---------
+Total Dynamic Power    =  43.0967 mW  (100%)
+
+Cell Leakage Power     =  50.9366 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
+register          40.8797        2.2553e-02        3.3447e+07           40.9357  (  94.87%)
+sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
+combinational      0.4629            1.7331        1.7489e+07            2.2135  (   5.13%)
+--------------------------------------------------------------------------------------------------
+Total             41.3427 mW         1.7556 mW     5.0937e+07 pW        43.1492 mW
+1

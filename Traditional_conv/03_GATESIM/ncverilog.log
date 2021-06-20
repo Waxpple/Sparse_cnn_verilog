@@ -1,0 +1,68 @@
+ncverilog: 15.20-s084: (c) Copyright 1995-2020 Cadence Design Systems, Inc.
+TOOL:	ncverilog	15.20-s084: Started on Jun 20, 2021 at 14:41:11 CST
+ncverilog
+	../03_GATESIM/TESTBED.v
+	../02_SYN/Netlist/conv_syn.v
+	/home/raid7_1/userd/d06001/faraday_U18/CBDK/Verilog/fsa0m_a_generic_core_21.lib.src
+	+access+r
+	+define+GATE+VCD
+Recompiling... reason: file '../02_SYN/Netlist/conv_syn.sdf' is newer than expected.
+	expected: Sun Jun 20 14:15:08 2021
+	actual:   Sun Jun 20 14:40:03 2021
+file: ../02_SYN/Netlist/conv_syn.v
+	module worklib.conv:v
+		errors: 0, warnings: 0
+		Caching library 'worklib' ....... Done
+	Elaborating the design hierarchy:
+	Reading SDF file from location "../02_SYN/Netlist/conv_syn.sdf"
+	Compiled SDF file "conv_syn.sdf.X" older than source SDF file "../02_SYN/Netlist/conv_syn.sdf".
+	Recompiling.
+	Writing compiled SDF file to "conv_syn.sdf.X".
+	Annotating SDF timing data:
+		Compiled SDF file:     conv_syn.sdf.X
+		Log file:              
+		Backannotation scope:  TESTBED.conv_CORE
+		Configuration file:    
+		MTM control:           
+		Scale factors:         
+		Scale type:            
+	Annotation completed successfully...
+	SDF statistics: No. of Pathdelays = 176748  Annotated = 97.35% -- No. of Tchecks = 74778  Annotated = 99.26% 
+				        Total 	   Annotated	  Percentage
+		 Path Delays	      176748	      172060	       97.35
+		       $hold	       10651	       10603	       99.55
+		      $width	       31986	       31809	       99.45
+		   $recovery	       10651	       10603	       99.55
+		  $setuphold	       21490	       21206	       98.68
+	Building instance overlay tables: .................... Done
+	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
+	Design hierarchy summary:
+		                     Instances  Unique
+		Modules:                 28667     397
+		UDPs:                    11388      11
+		Primitives:              52158      14
+		Timing outputs:          29532     228
+		Registers:               10790     196
+		Scalar wires:            40272       -
+		Expanded wires:            208      26
+		Named events:               37      37
+		Always blocks:             674      99
+		Initial blocks:             10      10
+		Cont. assignments:          25      26
+		Pseudo assignments:          2       2
+		Timing checks:           96268   10803
+		Interconnect:            87336       -
+		Delayed tcheck signals:  32068   10824
+		Simulation timescale:      1ps
+	Writing initial simulation snapshot: worklib.TESTBED:v
+Loading snapshot worklib.TESTBED:v .................... Done
+*Verdi* Loading libsscore_ius152.so
+ncsim> source /usr/cad/cadence/INCISIV/cur/tools/inca/files/ncsimrc
+ncsim> run
+Value error number:           0
+
+Simulation complete via $finish(1) at time 7876550 PS + 0
+./TESTBED.v:140     $finish();
+ncsim> exit
+TOOL:	ncverilog	15.20-s084: Exiting on Jun 20, 2021 at 14:41:26 CST  (total: 00:00:15)
