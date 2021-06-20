@@ -1,4 +1,4 @@
 ncverilog \
 TESTBED.v \
-SparseCNN.v \
+conv.v \
 +define+RTL +access+rw +notimingchecks

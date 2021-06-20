@@ -1,3 +1,5 @@
+`include "traditional_conv.v"
+`include "line_buffer_5x5.v"
 module conv#(
     parameter col_length = 8,
     parameter word_length = 8,
