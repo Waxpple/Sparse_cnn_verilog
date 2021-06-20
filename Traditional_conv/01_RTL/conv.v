@@ -5,7 +5,7 @@ module conv#(
     parameter word_length = 8,
     parameter double_word_length = 16,
     parameter kernel_size = 5,
-    parameter image_size = 36
+    parameter image_size = 28
 )(
     input clk,
     input rst,
@@ -21,8 +21,19 @@ wire line_buffer_5x5_out_valid,traditional_conv_out_valid;
 reg [double_word_length-1:0] counter,next_counter;
 wire signed [word_length*2-1:0] result;
 
+reg [word_length*2-1:0] next_data_out;
+
+
 always @(*) begin
-    next_counter = counter + 'd1;
+    if(traditional_conv_out_valid)begin
+        next_data_out = result;
+        next_counter = counter + 'd1;
+    end
+    else begin
+        next_data_out = data_out[15:0];
+        next_counter = counter;
+    end
+    
 end
 
 always @(posedge clk or posedge rst) begin
@@ -30,8 +41,8 @@ always @(posedge clk or posedge rst) begin
         data_out <= 'd0;
         counter <= 'd0;
     end
-    else if (traditional_conv_out_valid)begin
-        data_out[(counter+1)*word_length*2-1 -: word_length*2] <= result;
+    else begin
+        data_out[(counter+1)*word_length*2-1 -: word_length*2] <= next_data_out;
         counter <= next_counter;
     end
 end
