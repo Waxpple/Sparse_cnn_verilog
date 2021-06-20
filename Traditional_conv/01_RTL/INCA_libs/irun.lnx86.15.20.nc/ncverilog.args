@@ -1,9 +1,0 @@
-//
-// File created by:  ncverilog
-// Do not modify this file
-//
-TESTBED.v
-conv.v
-+define+RTL
-+access+rw
-+notimingchecks
