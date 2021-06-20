@@ -112,7 +112,7 @@ integer value_error_num = 0;
 genvar w;
 generate
  for(w=0; w<(image_size-kernel_size+1)*(image_size-kernel_size+1);w=w+1) begin
-   always @(posedge out_valid) begin
+   always @(posedge clk) begin
      if(out_valid) begin
       if((data_out[double_word_length*w+:double_word_length]) !== conv_output_pat_mem[w]) begin
         value_error_num = value_error_num+1; 
