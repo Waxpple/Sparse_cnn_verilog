@@ -3,9 +3,13 @@
 `define CYCLE 10
 `define ENDCYCLE  100000
 
+//`define conv_INPUT_PATTERN     "E:/VLSI/Sparse_cnn_verilog/Matlab_gen/feature_value_sparsity_100.dat"
+//`define conv_WEIGHT_PATTERN     "E:/VLSI/Sparse_cnn_verilog/Matlab_gen/kernel_value_sparsity_100.dat"
+//`define conv_OUTPUT_PATTERN     "E:/VLSI/Sparse_cnn_verilog/Matlab_gen/out_value_sparsity_100.dat"
 `define conv_INPUT_PATTERN     "../../Matlab_gen/feature_value_sparsity_100.dat"
 `define conv_WEIGHT_PATTERN     "../../Matlab_gen/kernel_value_sparsity_100.dat"
 `define conv_OUTPUT_PATTERN     "../../Matlab_gen/out_value_sparsity_100.dat"
+
 `define WORD_LENGTH 8
 `define COL_LENGTH 8
 `define IMAGE_SIZE 28
@@ -110,9 +114,9 @@ generate
  for(w=0; w<(image_size-kernel_size+1)*(image_size-kernel_size+1);w=w+1) begin
    always @(posedge out_valid) begin
      if(out_valid) begin
-      if((data_out[double_word_length*w+:double_word_length] + bias) !== conv_output_pat_mem[w]) begin
+      if((data_out[double_word_length*w+:double_word_length]) !== conv_output_pat_mem[w]) begin
         value_error_num = value_error_num+1; 
-        $display("index: %d, out: %b, pat: %b", w, data_out[double_word_length*w+:double_word_length], conv_output_pat_mem[w] - bias); 
+        $display("index: %d, out: %b, pat: %b", w, data_out[double_word_length*w+:double_word_length], conv_output_pat_mem[w]); 
       end
       value_golden_idx = value_golden_idx + 1;
      end
@@ -136,7 +140,7 @@ always @(posedge clk or posedge rst) begin
 end 
 
 always @(*) begin
-  if(value_golden_idx == (image_size-kernel_size+1)*(image_size-kernel_size+1) ) begin
+  if(value_golden_idx === (image_size-kernel_size+1)*(image_size-kernel_size+1) ) begin
     $display("Value error number: %d\n", value_error_num); 
     $finish();
   end
