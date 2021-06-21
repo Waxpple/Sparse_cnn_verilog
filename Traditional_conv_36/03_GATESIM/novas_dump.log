@@ -1,0 +1,98 @@
+ncsim 15.20-s084
+Linux 2.6.32-754.el6.x86_64 #1 SMP Tue Jun 19 21:26:04 UTC 2018 x86_64
+CPU cores: 24
+Limit information:
+======================================
+cputime			unlimited
+filesize		unlimited
+datasize		unlimited
+stacksize		10240 kbytes
+coredumpsize	0 kbytes
+memoryuse		unlimited
+vmemoryuse		unlimited
+descriptors		4096
+memorylocked	64 kbytes
+maxproc			1024
+======================================
+(Special)Runtime environment variables:
+
+Runtime environment variables:
+REMOTEHOST=xdn42o165.ee.ntu.edu.tw
+MANPATH=/usr/cad/synopsys/synthesis/cur/doc/syn/man
+HOSTNAME=cad16
+SELINUX_ROLE_REQUESTED=
+HOST=cad16
+TERM=xterm
+SHELL=/bin/tcsh
+SSH_CLIENT=140.112.42.165 55520 22
+SELINUX_USE_CURRENT_RANGE=
+MGC_LOCATION_MAP=NO_MAP
+QTDIR=/usr/lib64/qt-3.3
+QTINC=/usr/lib64/qt-3.3/include
+SSH_TTY=/dev/pts/1
+SG_HTML_BROWSER=/usr/bin/mozilla
+GROUP=user
+USER=r921132
+LD_LIBRARY_PATH=:/usr/cad/innovus/cur//tools/tlfUtil/lib:/home/raid7_4/raid1_1/linux/novas/verdi/cur/share/PLI/IUS/LINUX/
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.tbz=01;31:*.tbz2=01;31:*.bz=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:
+HOSTTYPE=x86_64-linux
+ENCOUNTER=/usr/cad/innovus/cur/tools/fe
+MAIL=/var/spool/mail/r921132
+PATH=/usr/cad/spring_soft/laker/cur/bin:/usr/cad/innovus/cur/tools/celtic/bin:/usr/cad/innovus/cur/tools/plato/bin:/usr/cad/innovus/cur/tools/dfII/bin:/usr/cad/innovus/cur/tools/bin:/usr/cad/innovus/cur//tools/tlfUtil/bin:/usr/bin/X11:/usr/cad/synopsys/primetime/cur/amd64/syn/bin:/usr/cad/synopsys/spyglass/cur/SPYGLASS_HOME/bin:/usr/bin/X11:/usr/cad/synopsys/coreConsultant/cur/bin:/usr/cad/synopsys/synthesis/cur/amd64/syn/bin:/usr/cad/synopsys/lc/cur/bin:/usr/mentor/calibre/cur/bin:/usr/mentor/calibre/cur/bin:/usr/cad/synopsys/customexplorer/cur/bin:/usr/cad/cadence/SPECTRE/cur/tools/dfII/bin:/usr/cad/cadence/SPECTRE/cur/tools/bin:/usr/cad/cadence/STRATUS/cur/tools/bin:/usr/cad/cadence/JASPER/cur/bin:/usr/cad/cadence/EDI/cur/tools/celtic/bin:/usr/cad/cadence/EDI/cur/tools/plato/bin:/usr/cad/cadence/EDI/cur/tools/dfII/bin:/usr/cad/cadence/EDI/cur/tools/fe/bin:/usr/cad/cadence/EDI/cur/tools/cdsdoc/bin:/usr/cad/cadence/EDI/cur/tools/bin:/usr/cad/cadence/EDI/cur//tools/tlfUtil/bin:/usr/cad/cadence/RC/cur/tools/bin:/usr/cad/cadence/MMSIM/cur/tools/dfII/bin:/usr/cad/cadence/MMSIM/cur/tools/bin:/usr/cad/cadence/NEOCIRCUIT/cur/tools/NeoCircuit/bin:bin.linux:/usr/cad/cadence/SPB/cur/tools/specctra/bin:/usr/cad/cadence/SPB/cur/tools/pcb/bin:/usr/cad/cadence/SPB/cur/tools/dfII/bin:/usr/cad/cadence/SPB/cur/tools/bin:/usr/cad/cadence/INCISIV/cur/tools/bin:/usr/cad/cadence/INCISIV/cur/tools/vtools/vfault/bin:/usr/cad/cadence/INCISIV/cur/tools/dfII/bin:/usr/cad/cadence/IC/cur/tools/dfII/bin:/usr/cad/cadence/IC/cur/tools/dracula/bin:/usr/cad/cadence/IC/cur/tools/bin:/usr/cad/cadence/EXT/cur/tools/bin:/usr/cad/cadence/ETS/cur/tools/bin:/usr/cad/cadence/CONFRML/cur/./bin:/usr/cad/cadence/CONFRML/cur/tools/bin:/usr/cad/cadence/CCD/cur/tools/bin:/usr/cad/cadence/ASSURA/cur/tools/assura/bin:/usr/cad/cadence/ASSURA/cur/tools/dsm/bin:/usr/cad/cadence/ASSURA/cur/tools/bin:/usr/cad/cadence/ASSURA/cur/tools/dfII/bin:/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/home/raid7_4/raid1_1/linux/novas/verdi/cur/bin
+OAHOME=/usr/cad/cadence/oa_v22.04.073
+PWD=/home/raid7_2/user09/r921132/traditional_final/Traditional_conv/03_GATESIM
+EDITOR=/usr/bin/vim
+LANG=en_US.UTF-8
+KDE_IS_PRELINKED=1
+SYNTHESIS=/usr/cad/synopsys/synthesis/cur
+OA_HOME=/usr/cad/innovus/cur/oa
+VERPLEX_HOME=/usr/cad/cadence/CONFRML/cur
+KDEDIRS=/usr
+SELINUX_LEVEL_REQUESTED=
+PRIMETIME=/usr/cad/synopsys/primetime/cur
+CDS_Netlisting_Mode=Analog
+LM_LICENSE_FILE=5280@lscic:5280@lsncku:5280@lsnchu:26585@lscic:1717@lsntu:26585@lsntu:5280@lstn
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SHLVL=2
+HOME=/home/raid7_2/user09/r921132
+OSTYPE=linux
+MGC_HOME=/usr/mentor/calibre/cur
+MGC_TMPDIR=/tmp
+VENDOR=unknown
+MACHTYPE=x86_64
+LOGNAME=r921132
+QTLIB=/usr/lib64/qt-3.3/lib
+CVS_RSH=ssh
+NEOCKTHOME=/usr/cad/cadence/NEOCIRCUIT/cur/tools/NeoCircuit
+SSH_CONNECTION=140.112.42.165 55520 140.112.20.59 22
+CDS_LIC_FILE=/usr/cad/cadence/IC/cur/share/license/license.dat
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+DISPLAY=localhost:10.0
+SYN_MAN_DIR=/usr/cad/synopsys/synthesis/cur/doc/syn/man
+ASSURAHOME=/usr/cad/cadence/ASSURA/cur
+G_BROKEN_FILENAMES=1
+_=/usr/cad/cadence/INCISIV/cur/tools/bin/ncverilog
+_IRUNROOT_=/usr/cad/cadence/INCISIV/cur/tools
+CDS_ARCH=lnx86
+NCRUNMODE=ncverilog:./INCA_libs/irun.lnx86.15.20.nc
+IRUNBATCH=FALSE
+IMPERAS_PORT_FILE=.vsp_ovp_gdb_port
+TCL_LIBRARY=/usr/cad/cadence/INCISIV/cur/tools/inca/files/tcl/library
+Runtime command line arguments:
+argv[0]=ncverilog
+argv[1]=../03_GATESIM/TESTBED.v
+argv[2]=../02_SYN/Netlist/conv_syn.v
+argv[3]=/home/raid7_1/userd/d06001/faraday_U18/CBDK/Verilog/fsa0m_a_generic_core_21.lib.src
+argv[4]=+access+r
+argv[5]=+define+GATE+VCD
+87 profile - 100
+          CPU/Mem usage: 0.130 sys,  1.570 user,  98.18M sys,  0.00M vm
+88 VC callback profile - scalar:0 vector:0
+89 Sun Jun 20 14:41:23 2021
+90 pliAppInit
+91 FSDB_GATE is disabled.
+92 Enable Parallel Dumping.
+93 pliAppMiscSet: New Sim Round
+94 pliEntryInit
+95 LIBSSCORE=found /home/raid7_4/raid1_1/linux/novas/verdi/cur/share/PLI/IUS/LINUX/libsscore_ius152.so through $LD_LIBRARY_PATH setting.
+96 Sim process exit

@@ -1,0 +1,33 @@
+ 
+****************************************
+Report : area
+Design : conv
+Version: R-2020.09-SP5
+Date   : Sun Jun 20 14:39:51 2021
+****************************************
+
+Information: Changed minimum wire load model for 'conv' from 'G5K' to 'enG200K'. (OPT-171)
+Information: Updating design information... (UID-85)
+Warning: Design 'conv' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    fsa0m_a_generic_core_ss1p62v125c (File: /home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis/fsa0m_a_generic_core_ss1p62v125c.db)
+
+Number of ports:                         9428
+Number of nets:                         29338
+Number of cells:                        28328
+Number of combinational cells:          17725
+Number of sequential cells:             10603
+Number of macros/black boxes:               0
+Number of buf/inv:                       1614
+Number of references:                      58
+
+Combinational area:             338043.991094
+Buf/Inv area:                    13477.262267
+Noncombinational area:          629512.839554
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:                967556.830647
+Total area:                 undefined
+1

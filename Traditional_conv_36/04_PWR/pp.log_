@@ -1,0 +1,165 @@
+
+                                 PrimeTime (R)
+
+                 Version N-2017.12 for linux64 - Nov 22, 2017 
+
+                    Copyright (c) 1988 - 2017 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+
+#======================================================
+#
+# PrimeTime  Scripts (dctcl mode)
+#
+#======================================================
+#======================================================
+#  1. Set the Power Analysis Mode
+#======================================================
+set power_enable_analysis true
+true
+set power_analysis_mode time_based
+time_based
+# report intrinsic leakage and gate leakage and total leakage as well
+set power_report_leakage_breakdowns true 
+true
+# exclude from clock_network power
+set power_clock_network_include_register_clock_pin_power false 
+false
+#======================================================
+#  2. Read and link the design
+#======================================================
+set search_path {./                  /home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis}
+./                  /home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis
+set link_library {* fsa0m_a_generic_core_ss1p62v125c.db fsa0m_a_generic_core_ff1p98vm40c.db }
+* fsa0m_a_generic_core_ss1p62v125c.db fsa0m_a_generic_core_ff1p98vm40c.db 
+set target_library { fsa0m_a_generic_core_ss1p62v125c.db fsa0m_a_generic_core_ff1p98vm40c.db }
+ fsa0m_a_generic_core_ss1p62v125c.db fsa0m_a_generic_core_ff1p98vm40c.db 
+set synthetic_library {dw_foundation.sldb}
+dw_foundation.sldb
+#======================================================
+#  3. Read designs, .sdf, .sdc file
+#======================================================
+#set DESIGN "alu"
+read_verilog ../02_SYN/Netlist/conv_syn.v
+1
+current_design conv
+Information: current_design won't return any data before link (DES-071)
+link
+Loading verilog file '/home/raid7_2/user09/r921132/traditional_final/Traditional_conv/02_SYN/Netlist/conv_syn.v'
+Loading db file '/home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis/fsa0m_a_generic_core_ss1p62v125c.db'
+Loading db file '/home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis/fsa0m_a_generic_core_ff1p98vm40c.db'
+Linking design conv...
+Information: 324 (84.82%) library cells are unused in library fsa0m_a_generic_core_ss1p62v125c..... (LNK-045)
+Information: 382 (100.00%) library cells are unused in library fsa0m_a_generic_core_ff1p98vm40c..... (LNK-045)
+Information: total 706 library cells are unused (LNK-046)
+Design 'conv' was successfully linked.
+Information: There are 37757 leaf cells, ports, hiers and 29338 nets in the design (LNK-047)
+1
+#read_sdc Lab4_alu.sdc
+read_sdf -load_delay net ../02_SYN/Netlist/conv_syn.sdf
+
+****************************************
+Report : read_sdf /home/raid7_2/user09/r921132/traditional_final/Traditional_conv/02_SYN/Netlist/conv_syn.sdf
+	-load_delay net
+	-analysis_type on_chip_variation
+	-min_type sdf_min
+	-max_type sdf_max
+Design : conv
+Version: N-2017.12
+Date   : Sun Jun 20 14:42:02 2021
+****************************************
+
+        0 error(s)
+        Number of annotated cell delay arcs :    362365
+        Number of annotated net delay arcs  :     87336
+        Number of annotated timing checks   :     63618
+        Number of annotated constraints     :     31809
+        TEMPERATURE: -40.00 (min)  125.00 (max)
+        VOLTAGE    : 1.98 (min)  1.62 (max)
+        PROCESS    : BCCOM (min)  WCCOM (max)
+1
+#======================================================
+#  4. Read Switching Activity File
+#======================================================
+read_vcd -strip_path TESTBED/conv_CORE ../03_GATESIM/conv_GATE.vcd
+Information: Checked out license 'PrimeTime-PX' (PT-019)
+
+======================================================================
+Summary:
+Total number of nets = 29338
+Number of annotated nets = 29338 (100.00%)
+Total number of leaf cells = 28328
+Number of fully annotated leaf cells = 28328 (100.00%)
+======================================================================
+
+1
+#======================================================
+#  5. Perform power analysis
+#======================================================
+check_power
+Warning: Zero transition time will be used at to pins of annotated arcs. Delays on not annotated delay arcs will be estimated using best available slew.  (PTE-066)
+Information: Using automatic max wire load selection group 'DEFAULT'. (ENV-003)
+Information: Using automatic min wire load selection group 'DEFAULT'. (ENV-003)
+Information: Zero transition time used at to pin of annotated arcs. Delays on not annotated delay arcs will be estimated using best available slew.  (PTE-054)
+Information: Zero transition time used at to pin of annotated arcs. Delays on not annotated delay arcs will be estimated using best available slew.  (PTE-054)
+Information: Checking 'out_of_table_range'.
+Warning: There are 87336 out_of_range ramps.
+Warning: There are 292 out_of_range loads.
+Information: Checking 'missing_table'.
+Information: Checking 'missing_function'.
+0
+update_power
+Information: Running time_based power analysis... (PWR-601)
+Information: The waveform options are:
+		File name:	primetime_px.fsdb
+		File format:	fsdb
+		Time interval:	0.001ns
+		Hierarchical level:	all
+
+Information: Power analysis is running, please wait ...
+
+ Last event time =      155 ns  Last event time =  276.142 ns  Last event time =  356.263 ns  Last event time =  416.455 ns  Last event time =  477.709 ns  Last event time =   536.29 ns  Last event time =  595.493 ns  Last event time =  629.277 ns  Last event time =  668.931 ns  Last event time =  709.513 ns  Last event time =  748.286 ns  Last event time =  786.749 ns  Last event time =  826.606 ns  Last event time =  867.241 ns  Last event time =  897.378 ns  Last event time =  926.689 ns  Last event time =  957.296 ns  Last event time =  987.105 ns  Last event time =   1015.6 ns  Last event time =  1038.45 ns  Last event time =  1066.81 ns  Last event time =   1095.6 ns  Last event time =  1126.13 ns  Last event time =  1149.09 ns  Last event time =  1176.18 ns  Last event time =   1195.8 ns  Last event time =  1209.11 ns  Last event time =  1228.23 ns  Last event time =  1247.72 ns  Last event time =  1267.09 ns  Last event time =  1285.98 ns  Last event time =  1298.69 ns  Last event time =  1316.97 ns  Last event time =  1335.37 ns  Last event time =  1347.61 ns  Last event time =  1366.14 ns  Last event time =  1385.37 ns  Last event time =  1399.54 ns  Last event time =  1418.08 ns  Last event time =  1436.98 ns  Last event time =  1456.31 ns  Last event time =  1476.25 ns  Last event time =  1490.74 ns  Last event time =  1509.07 ns  Last event time =  1529.74 ns  Last event time =  1548.01 ns  Last event time =  1566.87 ns  Last event time =   1585.6 ns  Last event time =  1598.32 ns  Last event time =   1616.6 ns  Last event time =  1629.27 ns  Last event time =     1647 ns  Last event time =  1665.59 ns  Last event time =  1685.37 ns  Last event time =  1698.64 ns  Last event time =  1717.45 ns  Last event time =  1737.24 ns  Last event time =  1757.38 ns  Last event time =  1776.39 ns  Last event time =   1795.9 ns  Last event time =   1815.6 ns  Last event time =  1828.89 ns  Last event time =  1847.33 ns  Last event time =   1865.6 ns  Last event time =  1878.52 ns  Last event time =  1896.56 ns  Last event time =  1910.14 ns  Last event time =  1927.13 ns  Last event time =   1945.6 ns  Last event time =  1960.01 ns  Last event time =  1978.21 ns  Last event time =  1997.27 ns  Last event time =  2017.31 ns  Last event time =  2037.75 ns  Last event time =  2056.72 ns  Last event time =   2075.8 ns  Last event time =  2095.53 ns  Last event time =   2115.6 ns  Last event time =  2130.97 ns  Last event time =   2148.1 ns  Last event time =  2166.58 ns  Last event time =  2180.49 ns  Last event time =     2197 ns  Last event time =  2215.52 ns  Last event time =  2228.09 ns  Last event time =  2247.39 ns  Last event time =  2266.58 ns  Last event time =   2285.9 ns  Last event time =  2307.36 ns  Last event time =  2327.48 ns  Last event time =  2347.06 ns  Last event time =  2366.76 ns  Last event time =  2386.47 ns  Last event time =  2406.23 ns  Last event time =  2425.37 ns  Last event time =  2438.13 ns  Last event time =  2457.04 ns  Last event time =  2475.51 ns  Last event time =  2487.72 ns  Last event time =  2506.29 ns  Last event time =  2525.91 ns  Last event time =  2546.18 ns  Last event time =  2566.42 ns  Last event time =  2587.94 ns  Last event time =  2607.39 ns  Last event time =  2626.36 ns  Last event time =  2645.59 ns  Last event time =  2665.37 ns  Last event time =  2678.52 ns  Last event time =  2697.78 ns  Last event time =  2716.47 ns  Last event time =  2730.95 ns  Last event time =  2747.23 ns  Last event time =  2765.43 ns  Last event time =  2777.86 ns  Last event time =   2797.2 ns  Last event time =  2817.02 ns  Last event time =  2836.42 ns  Last event time =  2856.56 ns  Last event time =  2877.28 ns  Last event time =  2896.45 ns  Last event time =   2915.6 ns  Last event time =  2935.43 ns  Last event time =  2949.67 ns  Last event time =  2968.08 ns  Last event time =  2986.92 ns  Last event time =  3005.76 ns  Last event time =  3019.98 ns  Last event time =  3037.66 ns  Last event time =  3056.32 ns  Last event time =   3075.6 ns  Last event time =  3095.59 ns  Last event time =  3115.46 ns  Last event time =  3129.57 ns  Last event time =   3155.7 ns  Last event time =  3170.82 ns  Last event time =  3188.41 ns  Last event time =  3207.72 ns  Last event time =  3227.22 ns  Last event time =   3246.3 ns  Last event time =  3265.43 ns  Last event time =  3277.73 ns  Last event time =  3296.29 ns  Last event time =  3309.36 ns  Last event time =   3327.7 ns  Last event time =  3346.58 ns  Last event time =  3366.42 ns  Last event time =  3386.26 ns  Last event time =  3405.37 ns  Last event time =  3425.37 ns  Last event time =  3445.37 ns  Last event time =  3458.04 ns  Last event time =   3477.2 ns  Last event time =  3496.99 ns  Last event time =  3516.39 ns  Last event time =  3535.53 ns  Last event time =  3548.12 ns  Last event time =  3567.13 ns  Last event time =  3586.32 ns  Last event time =   3605.6 ns  Last event time =  3625.46 ns  Last event time =  3645.59 ns  Last event time =  3665.59 ns  Last event time =  3678.96 ns  Last event time =  3698.29 ns  Last event time =  3718.02 ns  Last event time =  3736.64 ns  Last event time =  3755.77 ns  Last event time =  3775.37 ns  Last event time =  3788.99 ns  Last event time =  3807.81 ns  Last event time =  3826.87 ns  Last event time =  3845.43 ns  Last event time =  3858.35 ns  Last event time =  3877.35 ns  Last event time =  3897.11 ns  Last event time =  3916.64 ns  Last event time =  3936.49 ns  Last event time =     3956 ns  Last event time =  3976.04 ns  Last event time =   3996.7 ns  Last event time =  4015.76 ns  Last event time =  4035.53 ns  Last event time =  4055.56 ns  Last event time =   4075.4 ns  Last event time =  4092.16 ns  Last event time =  4108.07 ns  Last event time =  4127.55 ns  Last event time =  4147.27 ns  Last event time =  4167.86 ns  Last event time =  4188.05 ns  Last event time =  4207.83 ns  Last event time =   4227.1 ns  Last event time =  4246.45 ns  Last event time =  4267.25 ns  Last event time =  4286.57 ns  Last event time =   4305.6 ns  Last event time =  4320.34 ns  Last event time =  4338.99 ns  Last event time =  4358.58 ns  Last event time =  4378.19 ns  Last event time =  4397.31 ns  Last event time =  4416.35 ns  Last event time =  4435.53 ns  Last event time =  4455.37 ns  Last event time =  4470.77 ns  Last event time =  4495.44 ns  Last event time =   4509.1 ns  Last event time =  4527.78 ns  Last event time =  4549.29 ns  Last event time =   4567.8 ns  Last event time =   4586.8 ns  Last event time =  4606.51 ns  Last event time =  4626.29 ns  Last event time =  4646.42 ns  Last event time =   4665.7 ns  Last event time =  4685.37 ns  Last event time =  4698.18 ns  Last event time =  4717.87 ns  Last event time =  4737.45 ns  Last event time =  4756.83 ns  Last event time =  4776.14 ns  Last event time =  4795.45 ns  Last event time =  4809.71 ns  Last event time =   4835.6 ns  Last event time =  4850.42 ns  Last event time =  4868.34 ns  Last event time =  4887.38 ns  Last event time =  4906.39 ns  Last event time =  4925.47 ns  Last event time =  4945.37 ns  Last event time =  4959.12 ns  Last event time =   4978.2 ns  Last event time =  4997.13 ns  Last event time =  5016.55 ns  Last event time =   5035.6 ns  Last event time =  5055.37 ns  Last event time =  5068.44 ns  Last event time =  5087.59 ns  Last event time =  5108.85 ns  Last event time =  5127.82 ns  Last event time =  5146.73 ns  Last event time =  5166.29 ns  Last event time =  5185.37 ns  Last event time =  5199.01 ns  Last event time =  5217.98 ns  Last event time =  5237.35 ns  Last event time =   5256.9 ns  Last event time =     5276 ns  Last event time =  5295.53 ns  Last event time =  5311.05 ns  Last event time =  5328.26 ns  Last event time =  5348.21 ns  Last event time =  5367.34 ns  Last event time =  5387.96 ns  Last event time =  5406.66 ns  Last event time =  5425.59 ns  Last event time =   5441.4 ns  Last event time =  5458.41 ns  Last event time =  5477.55 ns  Last event time =  5497.07 ns  Last event time =  5516.66 ns  Last event time =  5535.67 ns  Last event time =  5555.19 ns  Last event time =  5568.45 ns  Last event time =  5587.51 ns  Last event time =  5606.52 ns  Last event time =  5625.59 ns  Last event time =  5639.38 ns  Last event time =  5658.87 ns  Last event time =  5678.42 ns  Last event time =  5697.06 ns  Last event time =  5716.14 ns  Last event time =  5735.43 ns  Last event time =  5749.06 ns  Last event time =  5768.16 ns  Last event time =   5787.5 ns  Last event time =  5806.52 ns  Last event time =   5825.6 ns  Last event time =  5845.47 ns  Last event time =  5859.45 ns  Last event time =  5878.56 ns  Last event time =  5897.94 ns  Last event time =   5917.1 ns  Last event time =  5936.91 ns  Last event time =  5956.99 ns  Last event time =   5975.6 ns  Last event time =   5990.7 ns  Last event time =  6007.82 ns  Last event time =  6027.22 ns  Last event time =  6046.65 ns  Last event time =  6066.32 ns  Last event time =  6085.59 ns  Last event time =  6099.35 ns  Last event time =  6118.18 ns  Last event time =  6137.98 ns  Last event time =  6157.98 ns  Last event time =  6177.93 ns  Last event time =  6197.42 ns  Last event time =   6217.4 ns  Last event time =  6237.33 ns  Last event time =   6255.6 ns  Last event time =   6268.3 ns  Last event time =   6287.2 ns  Last event time =  6306.26 ns  Last event time =   6325.6 ns  Last event time =  6345.37 ns  Last event time =  6359.64 ns  Last event time =  6378.96 ns  Last event time =  6399.04 ns  Last event time =  6418.56 ns  Last event time =  6438.41 ns  Last event time =  6459.29 ns  Last event time =  6478.13 ns  Last event time =  6498.56 ns  Last event time =   6518.9 ns  Last event time =  6537.32 ns  Last event time =  6556.32 ns  Last event time =  6569.54 ns  Last event time =  6588.07 ns  Last event time =  6607.07 ns  Last event time =  6626.19 ns  Last event time =  6645.37 ns  Last event time =  6658.55 ns  Last event time =     6678 ns  Last event time =  6697.54 ns  Last event time =  6716.86 ns  Last event time =  6736.85 ns  Last event time =     6756 ns  Last event time =  6775.37 ns  Last event time =  6796.06 ns  Last event time =  6815.37 ns  Last event time =  6827.52 ns  Last event time =   6845.6 ns  Last event time =  6858.31 ns  Last event time =  6877.06 ns  Last event time =  6895.59 ns  Last event time =   6909.6 ns  Last event time =  6928.14 ns  Last event time =  6947.91 ns  Last event time =   6967.2 ns  Last event time =  6986.75 ns  Last event time =  7006.89 ns  Last event time =  7026.61 ns  Last event time =  7045.91 ns  Last event time =  7066.61 ns  Last event time =  7086.25 ns  Last event time =  7099.67 ns  Last event time =  7117.32 ns  Last event time =   7135.6 ns  Last event time =  7149.28 ns  Last event time =  7167.31 ns  Last event time =  7186.63 ns  Last event time =  7205.87 ns  Last event time =  7226.29 ns  Last event time =  7245.59 ns  Last event time =  7265.37 ns  Last event time =  7285.37 ns  Last event time =  7298.93 ns  Last event time =  7317.35 ns  Last event time =  7337.34 ns  Last event time =  7357.65 ns  Last event time =  7376.61 ns  Last event time =  7391.04 ns  Last event time =  7407.22 ns  Last event time =  7425.56 ns  Last event time =  7437.97 ns  Last event time =  7456.42 ns  Last event time =  7475.37 ns  Last event time =  7488.85 ns  Last event time =  7508.07 ns  Last event time =  7527.26 ns  Last event time =  7546.46 ns  Last event time =  7565.59 ns  Last event time =  7580.22 ns  Last event time =  7597.27 ns  Last event time =  7616.64 ns  Last event time =  7636.81 ns  Last event time =   7655.6 ns  Last event time =  7668.08 ns  Last event time =   7686.8 ns  Last event time =  7705.47 ns  Last event time =  7717.84 ns  Last event time =  7736.29 ns  Last event time =  7752.25 ns  Last event time =  7768.47 ns  Last event time =  7787.58 ns  Last event time =  7806.55 ns  Last event time =   7825.6 ns  Last event time =  7838.76 ns  Last event time =  7857.03 ns  Last event time =  7876.14 ns Information: analysis is done for time window (0ns - 7876.55ns)
+
+1
+#======================================================
+#  6. Generate Power Report
+#======================================================
+# BUG command
+# set the options for power analysis, sampling interval: 1 timescale, outputfile: vcd.out
+set_power_analysis_options -waveform_interval 1 -waveform_format out -waveform_output vcd
+report_power > conv.power
+ Last event time =  145.428 ns  Last event time =  265.595 ns  Last event time =  347.881 ns  Last event time =  408.396 ns  Last event time =  475.595 ns  Last event time =  528.089 ns  Last event time =  587.743 ns  Last event time =  627.585 ns  Last event time =  667.378 ns  Last event time =  707.582 ns  Last event time =  747.285 ns  Last event time =  785.588 ns  Last event time =  825.371 ns  Last event time =   866.22 ns  Last event time =  896.655 ns  Last event time =  925.763 ns  Last event time =  956.466 ns  Last event time =  986.324 ns  Last event time =  1008.86 ns  Last event time =   1037.6 ns  Last event time =  1066.19 ns  Last event time =  1088.92 ns  Last event time =  1125.37 ns  Last event time =  1147.87 ns  Last event time =  1175.37 ns  Last event time =  1195.46 ns  Last event time =  1208.12 ns  Last event time =  1227.55 ns  Last event time =  1247.15 ns  Last event time =  1266.53 ns  Last event time =  1285.53 ns  Last event time =  1297.98 ns  Last event time =  1316.41 ns  Last event time =   1329.3 ns  Last event time =  1347.12 ns  Last event time =  1365.56 ns  Last event time =  1379.05 ns  Last event time =   1398.1 ns  Last event time =   1417.5 ns  Last event time =  1436.46 ns  Last event time =  1455.59 ns  Last event time =  1475.59 ns  Last event time =  1488.44 ns  Last event time =  1507.96 ns  Last event time =  1528.22 ns  Last event time =   1547.5 ns  Last event time =  1566.32 ns  Last event time =  1585.37 ns  Last event time =   1597.8 ns  Last event time =  1616.22 ns  Last event time =   1628.3 ns  Last event time =  1646.51 ns  Last event time =  1665.37 ns  Last event time =  1678.66 ns  Last event time =  1697.92 ns  Last event time =   1716.9 ns  Last event time =  1736.58 ns  Last event time =  1756.83 ns  Last event time =   1775.6 ns  Last event time =  1795.45 ns  Last event time =  1815.37 ns  Last event time =  1828.05 ns  Last event time =  1846.84 ns  Last event time =  1865.37 ns  Last event time =  1877.91 ns  Last event time =  1896.15 ns  Last event time =  1908.49 ns  Last event time =  1926.61 ns  Last event time =  1945.37 ns  Last event time =  1958.39 ns  Last event time =   1977.6 ns  Last event time =  1996.64 ns  Last event time =  2016.61 ns  Last event time =  2037.22 ns  Last event time =  2056.27 ns  Last event time =  2075.45 ns  Last event time =  2090.98 ns  Last event time =  2115.37 ns  Last event time =  2128.52 ns  Last event time =  2147.54 ns  Last event time =  2166.14 ns  Last event time =   2178.7 ns  Last event time =  2196.52 ns  Last event time =  2209.98 ns  Last event time =  2227.53 ns  Last event time =   2246.8 ns  Last event time =  2266.09 ns  Last event time =  2285.43 ns  Last event time =  2306.61 ns  Last event time =   2326.9 ns  Last event time =  2346.41 ns  Last event time =  2366.29 ns  Last event time =  2385.63 ns  Last event time =  2405.59 ns  Last event time =   2419.1 ns  Last event time =   2437.6 ns  Last event time =  2456.53 ns  Last event time =  2470.52 ns  Last event time =  2487.26 ns  Last event time =  2505.59 ns  Last event time =  2525.37 ns  Last event time =  2545.56 ns  Last event time =   2565.6 ns  Last event time =  2587.25 ns  Last event time =  2606.78 ns  Last event time =   2625.6 ns  Last event time =  2641.47 ns  Last event time =  2658.81 ns  Last event time =  2677.82 ns  Last event time =  2697.26 ns  Last event time =  2715.93 ns  Last event time =  2728.61 ns  Last event time =  2746.72 ns  Last event time =  2759.68 ns  Last event time =  2777.32 ns  Last event time =   2796.6 ns  Last event time =  2816.45 ns  Last event time =  2835.71 ns  Last event time =   2855.6 ns  Last event time =   2876.7 ns  Last event time =  2895.73 ns  Last event time =  2915.37 ns  Last event time =  2929.32 ns  Last event time =   2948.3 ns  Last event time =  2967.49 ns  Last event time =  2986.44 ns  Last event time =  3005.43 ns  Last event time =   3018.4 ns  Last event time =  3037.11 ns  Last event time =   3055.6 ns  Last event time =  3075.37 ns  Last event time =  3090.58 ns  Last event time =  3109.35 ns  Last event time =  3128.12 ns  Last event time =  3155.37 ns  Last event time =  3168.55 ns  Last event time =  3187.72 ns  Last event time =  3207.14 ns  Last event time =  3226.61 ns  Last event time =  3245.59 ns  Last event time =  3259.09 ns  Last event time =  3277.26 ns  Last event time =  3295.59 ns  Last event time =  3308.39 ns  Last event time =  3327.19 ns  Last event time =  3345.94 ns  Last event time =  3365.59 ns  Last event time =  3385.59 ns  Last event time =  3398.63 ns  Last event time =  3418.28 ns  Last event time =  3438.63 ns  Last event time =  3457.41 ns  Last event time =  3476.53 ns  Last event time =  3496.39 ns  Last event time =   3515.6 ns  Last event time =  3529.85 ns  Last event time =  3547.56 ns  Last event time =  3566.51 ns  Last event time =  3585.59 ns  Last event time =  3605.37 ns  Last event time =  3619.18 ns  Last event time =   3641.7 ns  Last event time =     3665 ns  Last event time =  3678.14 ns  Last event time =  3697.66 ns  Last event time =  3717.51 ns  Last event time =  3736.19 ns  Last event time =  3755.43 ns  Last event time =  3769.21 ns  Last event time =  3788.12 ns  Last event time =  3807.26 ns  Last event time =   3826.4 ns  Last event time =  3839.57 ns  Last event time =  3857.74 ns  Last event time =  3876.71 ns  Last event time =  3896.49 ns  Last event time =  3916.05 ns  Last event time =  3935.76 ns  Last event time =  3955.47 ns  Last event time =  3975.37 ns  Last event time =  3996.28 ns  Last event time =  4015.43 ns  Last event time =  4030.14 ns  Last event time =     4050 ns  Last event time =  4069.06 ns  Last event time =  4088.47 ns  Last event time =  4107.54 ns  Last event time =  4126.94 ns  Last event time =  4146.62 ns  Last event time =  4167.24 ns  Last event time =  4187.43 ns  Last event time =  4207.26 ns  Last event time =  4226.53 ns  Last event time =   4245.6 ns  Last event time =  4266.51 ns  Last event time =  4286.07 ns  Last event time =  4305.37 ns  Last event time =  4318.43 ns  Last event time =   4337.9 ns  Last event time =  4357.81 ns  Last event time =  4377.61 ns  Last event time =  4396.77 ns  Last event time =   4415.6 ns  Last event time =  4429.82 ns  Last event time =   4448.8 ns  Last event time =  4468.35 ns  Last event time =  4489.28 ns  Last event time =  4508.12 ns  Last event time =  4527.25 ns  Last event time =  4548.13 ns  Last event time =  4567.25 ns  Last event time =   4586.3 ns  Last event time =  4605.63 ns  Last event time =  4625.59 ns  Last event time =   4645.6 ns  Last event time =  4665.37 ns  Last event time =  4678.82 ns  Last event time =  4697.58 ns  Last event time =  4717.23 ns  Last event time =  4736.83 ns  Last event time =  4756.23 ns  Last event time =  4775.53 ns  Last event time =   4789.4 ns  Last event time =   4808.2 ns  Last event time =  4835.37 ns  Last event time =  4848.36 ns  Last event time =  4867.69 ns  Last event time =  4886.84 ns  Last event time =   4905.6 ns  Last event time =  4919.47 ns  Last event time =  4939.12 ns  Last event time =  4958.12 ns  Last event time =  4977.57 ns  Last event time =  4996.57 ns  Last event time =  5015.82 ns  Last event time =  5035.37 ns  Last event time =  5049.47 ns  Last event time =  5067.78 ns  Last event time =  5086.95 ns  Last event time =  5107.93 ns  Last event time =  5127.25 ns  Last event time =  5146.29 ns  Last event time =  5165.59 ns  Last event time =  5178.98 ns  Last event time =  5198.09 ns  Last event time =  5217.44 ns  Last event time =  5236.74 ns  Last event time =  5256.39 ns  Last event time =  5275.49 ns  Last event time =  5290.07 ns  Last event time =  5308.56 ns  Last event time =  5327.67 ns  Last event time =  5347.65 ns  Last event time =  5366.67 ns  Last event time =  5387.32 ns  Last event time =  5406.29 ns  Last event time =  5425.37 ns  Last event time =  5438.36 ns  Last event time =   5457.6 ns  Last event time =  5476.98 ns  Last event time =  5496.45 ns  Last event time =  5516.23 ns  Last event time =  5535.43 ns  Last event time =  5548.73 ns  Last event time =  5567.76 ns  Last event time =  5586.88 ns  Last event time =  5605.78 ns  Last event time =  5625.37 ns  Last event time =  5638.25 ns  Last event time =  5658.02 ns  Last event time =  5677.78 ns  Last event time =  5696.55 ns  Last event time =  5715.53 ns  Last event time =  5729.24 ns  Last event time =  5748.11 ns  Last event time =  5767.52 ns  Last event time =  5786.97 ns  Last event time =  5805.95 ns  Last event time =  5825.37 ns  Last event time =  5839.38 ns  Last event time =   5858.3 ns  Last event time =  5877.85 ns  Last event time =  5897.41 ns  Last event time =  5916.51 ns  Last event time =  5936.32 ns  Last event time =  5956.48 ns  Last event time =  5975.37 ns  Last event time =  5988.47 ns  Last event time =  6007.25 ns  Last event time =  6026.61 ns  Last event time =  6046.07 ns  Last event time =   6065.6 ns  Last event time =  6085.37 ns  Last event time =   6098.2 ns  Last event time =  6117.65 ns  Last event time =  6137.32 ns  Last event time =  6157.38 ns  Last event time =   6177.3 ns  Last event time =  6196.89 ns  Last event time =  6216.71 ns  Last event time =  6236.78 ns  Last event time =  6255.37 ns  Last event time =  6267.77 ns  Last event time =  6286.58 ns  Last event time =  6305.59 ns  Last event time =  6325.37 ns  Last event time =  6338.88 ns  Last event time =  6358.21 ns  Last event time =  6377.95 ns  Last event time =  6398.11 ns  Last event time =  6417.75 ns  Last event time =  6437.69 ns  Last event time =  6458.14 ns  Last event time =  6477.56 ns  Last event time =  6497.75 ns  Last event time =  6518.08 ns  Last event time =  6536.78 ns  Last event time =   6555.6 ns  Last event time =  6568.38 ns  Last event time =  6587.44 ns  Last event time =  6606.49 ns  Last event time =  6625.57 ns  Last event time =  6639.13 ns  Last event time =  6657.85 ns  Last event time =  6677.41 ns  Last event time =  6696.92 ns  Last event time =  6716.29 ns  Last event time =  6736.34 ns  Last event time =  6755.49 ns  Last event time =  6768.67 ns  Last event time =  6795.55 ns  Last event time =  6808.82 ns  Last event time =  6826.97 ns  Last event time =  6845.37 ns  Last event time =  6857.69 ns  Last event time =  6876.56 ns  Last event time =  6895.37 ns  Last event time =  6908.26 ns  Last event time =  6927.53 ns  Last event time =  6947.28 ns  Last event time =  6966.51 ns  Last event time =  6986.23 ns  Last event time =   7006.3 ns  Last event time =  7026.11 ns  Last event time =  7045.43 ns  Last event time =  7066.15 ns  Last event time =  7085.59 ns  Last event time =  7098.34 ns  Last event time =  7116.86 ns  Last event time =  7135.37 ns  Last event time =   7148.3 ns  Last event time =  7166.69 ns  Last event time =  7186.14 ns  Last event time =  7205.44 ns  Last event time =  7225.59 ns  Last event time =  7242.41 ns  Last event time =  7259.14 ns  Last event time =  7278.64 ns  Last event time =  7297.97 ns  Last event time =  7316.82 ns  Last event time =  7336.66 ns  Last event time =  7357.07 ns  Last event time =  7376.25 ns  Last event time =  7388.76 ns  Last event time =  7406.69 ns  Last event time =  7425.37 ns  Last event time =  7437.41 ns  Last event time =  7455.76 ns  Last event time =  7468.99 ns  Last event time =  7487.91 ns  Last event time =  7507.46 ns  Last event time =  7526.58 ns  Last event time =  7545.71 ns  Last event time =  7565.37 ns  Last event time =  7578.36 ns  Last event time =  7596.72 ns  Last event time =  7616.22 ns  Last event time =  7636.32 ns  Last event time =  7655.37 ns  Last event time =  7667.55 ns  Last event time =  7686.32 ns  Last event time =  7699.95 ns  Last event time =  7717.27 ns  Last event time =  7735.59 ns  Last event time =  7748.48 ns  Last event time =  7767.69 ns  Last event time =  7786.94 ns  Last event time =  7806.01 ns  Last event time =  7825.37 ns  Last event time =  7838.01 ns  Last event time =  7856.52 ns  Last event time =  7875.37 ns Information: Defining new variable 'synthetic_library'. (CMD-041)
+pt_shell> report_power -h
+****************************************
+Report : Time Based Power
+	-hierarchy
+Design : conv
+Version: N-2017.12
+Date   : Sun Jun 20 14:43:25 2021
+****************************************
+
+
+
+                                      Int      Switch   Leak      Total
+Hierarchy                             Power    Power    Power     Power    %
+--------------------------------------------------------------------------------
+conv                                  5.34e-02 2.15e-02 5.74e-05  7.50e-02 100.0
+
+
+                                      Peak     Peak            Glitch   X-tran
+Hierarchy                             Power    Time            Power    Power
+--------------------------------------------------------------------------------
+conv                                     0.364    7595-7596       0.000 1.69e-07
+1
+pt_shell> exit
+
+Timing updates: 1 (1 implicit, 0 explicit) (0 incremental, 1 full, 0 logical)
+Noise updates: 0 (0 implicit, 0 explicit) (0 incremental, 0 full)
+Maximum memory usage for this session: 1202.75 MB
+CPU usage for this session: 87 seconds 
+Elapsed time for this session: 250 seconds
+Diagnostics summary: 1 warning, 13 informationals
+
+Thank you for using pt_shell!
