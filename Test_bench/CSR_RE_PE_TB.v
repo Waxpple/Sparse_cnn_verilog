@@ -1,5 +1,5 @@
 `timescale 1ns/1ns
-module CSR_PE_tb();
+module CSR_RE_PE_tb();
 parameter col_length = 8;
 parameter word_length = 8;
 parameter double_word_length = 16;
@@ -2125,7 +2125,6 @@ if(PE_pixels_31_31!==16'hff64) $display("ERROR! at (31,31)\n");
 
 
 
-
     $finish;
     
 end
@@ -2187,7 +2186,7 @@ CSR#
     .out_valid(CSR_valid)
 );
 
-PE#
+RE_PE#
 (
     .col_length(col_length), 
     .word_length(word_length), 
