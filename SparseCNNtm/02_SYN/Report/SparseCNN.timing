@@ -1,0 +1,93 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : SparseCNN
+Version: R-2020.09-SP5
+Date   : Thu Jun 17 23:35:31 2021
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: top
+
+  Startpoint: weight_csr/counter_reg[13]
+              (rising edge-triggered flip-flop clocked by clk)
+  Endpoint: weight_csr/col_reg[1]
+            (rising edge-triggered flip-flop clocked by clk)
+  Path Group: clk
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  SparseCNN          G5K                   fsa0m_a_generic_core_ss1p62v125c
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock clk (rise edge)                                   0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  weight_csr/counter_reg[13]/CK (QDFFRBN)                 0.00 #     0.00 r
+  weight_csr/counter_reg[13]/Q (QDFFRBN)                  0.43       0.43 f
+  weight_csr/U221/O (NR2)                                 0.27       0.70 r
+  weight_csr/U295/O (INV1)                                0.11       0.81 f
+  weight_csr/U296/O (AOI12HS)                             0.18       0.98 r
+  weight_csr/U297/O (NR2)                                 0.13       1.11 f
+  weight_csr/U298/O (NR2T)                                0.18       1.29 r
+  weight_csr/U300/O (INV1S)                               0.10       1.39 f
+  weight_csr/U301/O (MOAI1)                               0.27       1.66 f
+  weight_csr/U302/O (AOI22H)                              0.22       1.88 r
+  weight_csr/U303/O (INV2)                                0.09       1.97 f
+  weight_csr/U308/O (ND2S)                                0.15       2.12 r
+  weight_csr/U144/O (ND3P)                                0.22       2.34 f
+  weight_csr/U315/O (OAI12HS)                             0.26       2.59 r
+  weight_csr/U208/O (AOI12HS)                             0.13       2.73 f
+  weight_csr/U323/O (OA12P)                               0.31       3.04 f
+  weight_csr/U328/O (NR2)                                 0.21       3.24 r
+  weight_csr/U329/O (INV1S)                               0.10       3.35 f
+  weight_csr/U335/O (OA12)                                0.30       3.64 f
+  weight_csr/U338/O (NR2)                                 0.20       3.85 r
+  weight_csr/U349/O (NR2P)                                0.23       4.08 f
+  weight_csr/U350/O (OAI12HS)                             0.13       4.21 r
+  weight_csr/U352/O (OAI112HS)                            0.40       4.61 f
+  weight_csr/U364/O (OA12P)                               0.36       4.97 f
+  weight_csr/U7/O (XNR2H)                                 0.22       5.19 f
+  weight_csr/U367/O (INV2)                                0.21       5.39 r
+  weight_csr/U198/O (AOI12HS)                             0.19       5.58 f
+  weight_csr/U197/O (INV1S)                               0.26       5.85 r
+  weight_csr/U548/O (OAI12HS)                             0.16       6.01 f
+  weight_csr/U141/O (OAI12H)                              0.36       6.37 r
+  weight_csr/U570/OB (MXL2HS)                             0.20       6.57 r
+  weight_csr/U571/O (AOI12HS)                             0.14       6.71 f
+  weight_csr/U572/O (NR2)                                 0.30       7.01 r
+  weight_csr/U573/O (INV1S)                               0.21       7.21 f
+  weight_csr/U587/O (NR2)                                 0.18       7.40 r
+  weight_csr/U588/O (NR2)                                 0.16       7.56 f
+  weight_csr/U3/O (MOAI1S)                                0.29       7.85 r
+  weight_csr/U591/O (OA12)                                0.32       8.17 r
+  weight_csr/U211/O (INV1S)                               0.20       8.37 f
+  weight_csr/U598/O (AOI22S)                              0.41       8.77 r
+  weight_csr/U605/O (INV2)                                0.09       8.87 f
+  weight_csr/U607/O (OR2)                                 0.24       9.10 f
+  weight_csr/U609/O (MUXB2S)                              0.31       9.42 f
+  weight_csr/U610/O (INV1S)                               0.09       9.51 r
+  weight_csr/U611/O (MUX2)                                0.23       9.74 r
+  weight_csr/col_reg[1]/D (QDFFRBS)                       0.00       9.74 r
+  data arrival time                                                  9.74
+
+  clock clk (rise edge)                                  10.00      10.00
+  clock network delay (ideal)                             0.00      10.00
+  clock uncertainty                                      -0.10       9.90
+  weight_csr/col_reg[1]/CK (QDFFRBS)                      0.00       9.90 r
+  library setup time                                     -0.16       9.74
+  data required time                                                 9.74
+  --------------------------------------------------------------------------
+  data required time                                                 9.74
+  data arrival time                                                 -9.74
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+1

@@ -1,0 +1,37 @@
+Error: Width mismatch on port 'weight_value' of reference to 'PE' in 'SparseCNN'. (LINK-3)
+Warning: Unable to resolve reference 'PE' in 'SparseCNN'. (LINK-5)
+ 
+****************************************
+Report : area
+Design : SparseCNN
+Version: R-2020.09-SP5
+Date   : Thu Jun 17 23:55:05 2021
+****************************************
+
+Information: Changed minimum wire load model for 'SparseCNN' from 'G5K' to 'enG2000K'. (OPT-171)
+Information: Updating design information... (UID-85)
+Warning: Design 'SparseCNN' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Library(s) Used:
+
+    fsa0m_a_generic_core_ss1p62v125c (File: /home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis/fsa0m_a_generic_core_ss1p62v125c.db)
+
+Number of ports:                        38441
+Number of nets:                        702409
+Number of cells:                       545653
+Number of combinational cells:         507688
+Number of sequential cells:             35485
+Number of macros/black boxes:               0
+Number of buf/inv:                      18735
+Number of references:                      19
+
+Combinational area:           11868646.730011
+Buf/Inv area:                   162570.843430
+Noncombinational area:         2127504.461445
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:              13996151.191456
+Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
+1

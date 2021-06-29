@@ -1,0 +1,53 @@
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : SparseCNN
+Version: R-2020.09-SP5
+Date   : Thu Jun 17 23:35:30 2021
+****************************************
+
+
+Library(s) Used:
+
+    fsa0m_a_generic_core_ss1p62v125c (File: /home/raid7_1/userd/d06001/faraday_U18/CBDK/Synthesis/fsa0m_a_generic_core_ss1p62v125c.db)
+
+
+Operating Conditions: WCCOM   Library: fsa0m_a_generic_core_ss1p62v125c
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+SparseCNN              G5K               fsa0m_a_generic_core_ss1p62v125c
+
+
+Global Operating Voltage = 1.62 
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  = 123.3238 mW   (92%)
+  Net Switching Power  =  11.2171 mW    (8%)
+                         ---------
+Total Dynamic Power    = 134.5409 mW  (100%)
+
+Cell Leakage Power     = 171.7354 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.3229            5.9606        1.2736e+07            6.2961  (   4.67%)
+register         119.4728            1.0739        1.1879e+08          120.6659  (  89.58%)
+sequential     2.6479e-04            0.0000        4.1350e+03        2.6892e-04  (   0.00%)
+combinational      3.5161            4.1821        4.0206e+07            7.7385  (   5.74%)
+--------------------------------------------------------------------------------------------------
+Total            123.3121 mW        11.2166 mW     1.7174e+08 pW       134.7008 mW
+1
