@@ -1,4 +1,4 @@
-#README
+###README
 DSPVLSI-Final Presentation-group12.pdf -> final slide in pdf format.(prevent it from broken format)
 DSPVLSI-Final Presentation-group12.pptx -> final slide in pptx format.
 DSPVLSI-Final Report-group12.pdf -> final report.
